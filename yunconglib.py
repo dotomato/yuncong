@@ -54,6 +54,7 @@ def face_create(groupId, img_bin, people_name):
         return False, -1
 
 
+# 传入一个文件夹，里面只能有人脸图片，文件名即作为人名
 def recreate_yuncong_data_from_direcory(groupId, dir):
     print('group_delete:', group_delete(groupId))
     print('group_delete:', group_create(groupId))
