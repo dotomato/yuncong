@@ -15,11 +15,12 @@ body {
     width: 1000px !important;
 }
 
+h1 {
+    font-size:36px;
+}
 
-.filename-style {
-    overflow:hidden;
-    text-overflow: ellipsis;
-    white-space:nowrap;
+h2 {
+    font-size: 24px;
 }
 
 #top-alert {
@@ -37,223 +38,37 @@ body {
     text-align: center;
 }
 
-#upload-area {
-    height:200px;
+.button{
+    width: 60px;
+    height:30px;
+    border: 2px solid #555555;
+    background: #0000;
+    cursor: pointer;
+}
+
+.button p{
     width: 100%;
-    margin-top: 20px;
-    padding:30px 0px 0px 0px;
-    border-radius: 32px;
-    box-shadow: inset 0px 0px 47px 0px rgba(0,0,0,0.2);
-    background: #AAA;
-    cursor: pointer;
-	transition: all .1s ease-in 0s;
-}
-
-
-#upload-area:hover {
-    box-shadow: inset 4px 4px 26px 0px rgba(100,188,247,0.4);
-	transition: all .1s ease-in 0s;
-}
-
-
-#upload-area h1{
-    font-size: 24px;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.2);
-    color: #EEE;
     text-align: center;
-    font-weight: 800;
+    color: #000;
 }
 
-
-#upload-area p{
-    font-size: 48px;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.2);
-    color: #EEE;
-    text-align: center;
-}
-
-
-.file-box {
-    background: #FFF;
-    padding:12px 0px 10px 0px;
-    height: 120px;
-    box-shadow: 4px 4px 26px 0px rgba(0,0,0,0.2);
-    border-radius: 4px;
-    margin: 20px 0px;
+.button:hover{
+    background: #b53939;
 	transition: all .1s ease-in 0s;
 }
 
-.file-box:hover {
-    box-shadow: 4px 4px 26px 0px rgba(100,188,247,0.4);
-    transform: scale(1.02);
-}
-
-.file-name {
-    margin:0px;
-    overflow:hidden;
-    color: #666;
-}
-
-.file-detail{
-    margin: 4px 0px;
-}
-
-.file-date {
-    color: #aaa;
-}
-
-.file-size {
-    margin-left: 10px;
-    color: #aaa;
-}
-
-.file-icons{
-    margin: 20px 0px;
-}
-
-.file-icons i{
-    font-size: 24px;
-    color: #AAA;
-    margin:0px 8px 0px 0px;
-}
-
-.file-icons i:hover{
-    color: rgb(100,188,247);
-    cursor: pointer;
-}
-
-.file-img i{
-    margin-top:24px;
-    font-size: 40px;
-    color: #AAA;
-}
-
-.file-box:hover .file-img i{
-    color: rgb(100,188,247);
-}
-
-
-.field-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 400px;
+.button:hover p{
     color: #FFF;
-    background: rgb(100, 188, 247);
-    padding:20px;
-    height: 280px;
-    box-shadow: 4px 4px 26px 0px rgba(0,0,0,0.2);
-    border-radius: 4px;
-	transition: all .1s ease-in 0s;
 }
 
-
-.field-box h1{
-    margin: 0px;
-    font-size: 24px;
+.tablestyle1 {
+    width: 100%;
 }
 
-
-.field-box h2{
-    margin: 0px;
-    font-size: 20px;
-}
-
-.field-box p{
-    margin: 0px;
-}
-
-.field-box-input {
-    width: 70%;
-    background: transparent;
-    border: 2px solid #FFF;
-    border: 2px hidden;
-    border-bottom: 2px solid #FFF;
-}
-
-
-.field-box-submit {
-    float: right;
-    background: transparent;
-    border: 2px solid rgba(0,0,0,0);
-	transition: all .1s ease-in 0s;
-}
-
-.field-box-submit:hover {
-    border: 2px solid rgba(255,255,255,1);
-	transition: all .1s ease-in 0s;
-}
-
-.dangerous:hover {
-    border: 2px solid rgba(255,50,50,1) !important;
-    color: rgba(255,50,50,1) !important;
-}
-
-
-#footer {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    color: rgb(100, 188, 247);
-    margin-top: 100px;
-    text-align: right;
-}
-
-a {
-    all: unset;
-}
-
-
-a:hover {
-    all: unset;
-    cursor: pointer;
-}
-
-
-#footer p {
-    font-size: 12px;
-}
-
-#footer h1{
-    font-size: 24px;
-    font-weight: 800;
-}
-
-
-.doc{
-    margin-top: 20px;
-    border: 2px solid #AAA;
-    padding: 40px;
-    text-align: center;
-    color: #AAA;
-}
-
-.empty{
-    margin-top: 40px;
-    border: 2px solid #AAA;
-    padding: 40px;
-    text-align: center;
-    color: #AAA;
-}
-
-.clear-btn {
-    width: 80px;
+.tablestyle1 tr{
     height: 40px;
-    padding: 4px;
-    border: 2px hidden #FFF;
-	transition: all .1s ease-in 0s;
 }
 
-.clear-btn:hover {
-    border: 2px solid #FFF;
-	transition: all .1s ease-in 0s;
-}
-
-.file-like {
-    color: rgb(100, 188, 247) !important;
-}
-
-
-.file-like:hover {
-    color: #AAA !important;
+.tablestyle1 th, td{
+    padding: 10px;
 }

@@ -9,12 +9,18 @@ from flask import Flask, render_template, request, url_for, flash, redirect, sen
 
 
 
+
+
+
 # *******************  Flask Configuration ******************#
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = str(uuid.uuid4())
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1 * 24 * 60 * 60
-app.add_template_global(VERSION, 'VERSION')
+
+
+
+
 
 
 
@@ -28,14 +34,14 @@ def index():
     # *******************  GET ******************#
 
     if request.method == 'GET':
-		pass
+        pass
 
     # *******************  POST ******************#
 
     if request.method == 'POST':
-		pass
-	
-	return render_template('index.html')
+        pass
+
+    return render_template('index.html')
 
 
 def format_time(date):
