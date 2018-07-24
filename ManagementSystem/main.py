@@ -5,7 +5,7 @@ import time
 import uuid
 import re
 
-from flask import Flask, render_template, request, url_for, flash, redirect, send_file, abort
+from flask import Flask, render_template, request, url_for, flash, redirect, send_file, abort, jsonify
 
 
 
@@ -29,7 +29,6 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1 * 24 * 60 * 60
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    field = request.args.get('field', '')
 
     # *******************  GET ******************#
 
@@ -41,13 +40,61 @@ def index():
     if request.method == 'POST':
         pass
 
-    return render_template('index.html')
+    return render_template('index.html', data=getdata())
+
+
+
+# *******************  API ******************#
+
+@app.route('/get_info', methods=['GET'])
+def get_info():
+    _id = request.args.get('id', "")
+    if _id == "":
+        return jsonify([])
+    _id = int(_id)
+
+    data = getdata()
+    for p in data['people']:
+        if p['id'] == _id:
+            return jsonify(p)
+    return jsonify([])
+
+
+@app.route('/set_info', methods=['POST'])
+def get_info():
+    p = json.loads(request.data, encoding='utf-8')
+
+    if id is None:
+        return jsonify({'result': False})
+
+    data = getdata()
+    for i in range(len(data['people'])):
+        if data['people'][i]['id'] == p['id']:
+            data['people'][i] = p
+    setdata(data)
+
+    return jsonify({'result': True})
 
 
 def format_time(date):
     return time.strftime("%Y/%m/%d %H:%M:%S", time.localtime(date))
 app.add_template_global(format_time)
 
+
+def getdata():
+    fd = open('data.json', encoding='utf-8')
+    s = fd.read()
+    fd.close()
+    data = json.loads(s)
+    return data
+
+
+def setdata(data):
+    fd = open('data.json', 'w', encoding='utf-8')
+    s = json.dumps(data)
+    fd.write(s)
+    fd.flush()
+    fd.close()
 
 # ******************  Debug Run *******************#
 # !!!!!!  Do NOT run in production environment !!!!#

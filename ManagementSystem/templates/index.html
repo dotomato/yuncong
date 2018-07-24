@@ -106,47 +106,20 @@
                     <tr>
                         <th>姓名</th>
                         <th>学号</th>
-                        <th>联系电话</th>
+                        <th>宿舍号</th>
+                        <th>余额</th>
+                        <th>缺席课时</th>
                         <th>人脸照片</th>
                         <th>修改</th>
                         <th>删除</th>
                     </tr>
 
+                    {% for p in data.people %}
                     <tr>
-                        <td>黄浩岚</td> <td>20175635</td> <td>13795595302 </td> <td>20175635.jpg</td>
+                        <td>{{p.name}}</td> <td>{{p.id}}</td> <td>{{p.room}}</td> <td>{{p.money}}</td> <td>{{p.lessontime}}</td> <td>{{p.img}}</td>
                         <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
                     </tr>
-
-                    <tr>
-                        <td>湛淑兰</td> <td>20174922</td> <td>13702910069 </td> <td>20174922.jpg</td>
-                        <th><a href="#">修改</a></th> <td><a href="#">删除</a></td>
-                    </tr>
-
-                    <tr>
-                        <td>竹飞兰</td> <td>20179467</td> <td>13720247918</td> <td>20179467.jpg</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
-                    </tr>
-
-                    <tr>
-                        <td>清凌寒</td> <td>20175251</td> <td>13771300297</td> <td>20175251.jpg</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
-                    </tr>
-
-                    <tr>
-                        <td>朱静云</td> <td>20171504</td> <td>13790915127 </td> <td>20171504.jpg</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
-                    </tr>
-
-                    <tr>
-                        <td>钱从丹</td> <td>20171980</td> <td>13795969044</td> <td>20171980.jpg</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
-                    </tr>
-
-                    <tr>
-                        <td>宰曼彤</td> <td>20171328</td> <td>13708242023</td> <td>20171328.jpg</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
-                    </tr>
-
+                    {% endfor %}
 
                 </table>
             </div>
@@ -161,21 +134,12 @@
                         <th>终端号</th>
                     </tr>
 
+                    {% for p in data.eating %}
                     <tr>
-                        <td>2018/7/24 11:21:34</td> <td>20171328</td> <td>21</td>
+                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
                     </tr>
+                    {% endfor %}
 
-                    <tr>
-                        <td>2018/7/24 11:21:34</td> <td>20171328</td> <td>21</td>
-                    </tr>
-
-                    <tr>
-                        <td>2018/7/24 11:21:34</td> <td>20171328</td> <td>21</td>
-                    </tr>
-
-                    <tr>
-                        <td>2018/7/24 11:21:34</td> <td>20171328</td> <td>21</td>
-                    </tr>
                 </table>
 
                 <div style="padding-left:0px; margin-top:10px" class="col-xs-2">
@@ -188,11 +152,51 @@
 
             <div style="margin-top:30px" class="col-xs-4">
                 <h2>最近五次上课签到记录</h2>
+                <table border="1" style="margin-top:20px;" class="tablestyle1">
+                    <tr>
+                        <th>时间</th>
+                        <th>学号</th>
+                        <th>终端号</th>
+                    </tr>
+
+                    {% for p in data.lesson %}
+                    <tr>
+                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+
+                <div style="padding-left:0px; margin-top:10px" class="col-xs-2">
+                    <div style="width:100px;" class="button">
+                        <p>详细记录</p>
+                    </div>
+                </div>
             </div>
 
 
             <div style="margin-top:30px" class="col-xs-4">
                 <h2>最近五次宿舍开门记录</h2>
+                <table border="1" style="margin-top:20px;" class="tablestyle1">
+                    <tr>
+                        <th>时间</th>
+                        <th>学号</th>
+                        <th>终端号</th>
+                    </tr>
+
+                    {% for p in data.door %}
+                    <tr>
+                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+
+                <div style="padding-left:0px; margin-top:10px" class="col-xs-2">
+                    <div style="width:100px;" class="button">
+                        <p>详细记录</p>
+                    </div>
+                </div>
             </div>
         </div>
 
