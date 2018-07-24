@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dotomato Public Field Service</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    function F_Open_dialog()
+    {
+        document.getElementById("upload_file_selector").click();
+    }
+
+    function F_Change()
+    {
+        document.getElementById("upload_h3_2").innerHTML="Uploading ……";
+        document.getElementById("upload_p").innerHTML='<i class="fa fa-hourglass fa-spin"></i>'
+        document.getElementById("upload_file_btn").click();
+    }
+
+    $(document).ready(function(){
+        setTimeout("Alert_close()",1000)
+    })
+
+    function Alert_close()
+    {
+        $("#top-alert").animate({top:"-70px"}, 1000);
+    }
+
+    function Alert_clear()
+    {
+        return confirm("立即清空该域里所有文件，不可恢复");
+    }
+
+    function Alert_delete(field, uuid)
+    {
+        var r = confirm("确定删除文件？");
+        if (r == true) {
+            window.location.href = 'http://'+window.location.host+'/delete?field='+field+'&uuid='+uuid;
+        }
+    }
+
+    function copyToClipBoard(field, uuid)
+    {
+        var oInput = document.createElement('input');
+        oInput.value = 'http://'+window.location.host+'/download?field='+field+'&uuid='+uuid;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.style.display='none';
+
+        alert("已复制下载链接");
+    }
+
+    </script>
+</head>
+<body>
+
+<form action="" method="post" enctype="multipart/form-data"  style="display:none">
+    <input id="upload_file_selector" type="file" name="upload_file" onchange="F_Change()"/>
+    <input id="upload_file_btn" type="submit" value="Upload" />
+</form>
+
+<section id="section-filelist">
+    
+    <div class="container">
+
+        {% if get_flashed_messages() %}
+        <div id="top-alert">
+            {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-xs-6">
+
+                {% if status.field != 'example' %}
+
+                <div id="upload-area"  onclick="F_Open_dialog()">
+                    <h1 id="upload_h3_2" class="filename-style">点击上传</h1>
+                    <p id="upload_p"><i class="fa fa-upload"></i></p>
+                </div>
+
+                {% endif %}
+
+                {% if not status.empty %}
+                {% for file in status.data.files %}
+
+
+                <div class="file-box">
+                    <div class="col-xs-10">
+                            <h3 class="file-name filename-style">{{file.name}}</h3>
+                            <div class="file-detail">
+                                <span class="file-date">{{format_time(file.date)}}</span>
+                                <span class="file-size">{{file.size}}</span>
+                            </div>
+                            <div class="file-icons">
+
+                                <a href="/download?field={{status.data.field}}&uuid={{file.uuid}}"><i class="fa fa-download"></i></a>
+
+                                <i class="fa fa-link" onclick="copyToClipBoard('{{status.data.field}}','{{file.uuid}}')"></i>
+
+                                <i class="fa fa-trash" onclick="Alert_delete('{{status.data.field}}','{{file.uuid}}')"></i>
+
+                                {% if file.like %}
+                                <a href="/unlike?field={{status.data.field}}&uuid={{file.uuid}}">
+                                    <i class="fa fa-heart file-like"></i>
+                                </a>
+                                {% else %}
+                                <a href="/like?field={{status.data.field}}&uuid={{file.uuid}}">
+                                    <i class="fa fa-heart file-unlike"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                            <!--fa-file-audio-o-->
+                    </div>
+                    <div class="col-xs-2 file-img">
+                        <i class="fa fa-file"></i>
+                    </div>
+                </div>
+
+                {% endfor %}
+                {% endif %}
+
+                {% if status.field == 'example' %}
+
+                
+                <div class="doc">
+                    <p style="text-align: start">
+                        使用说明：<br/>
+                        <br/>
+                        本服务的目的是实现一个方便实用的跨平台文件共享工具，适合个人在电脑、手机、Linux平台之间共享文件，或者是给别人传送临时文件。<br/>
+                        <br/>
+                        在右则输入一个域名，则会自动创建一个新的保存空间，如果已经存在则会自动进入。<br/>
+                        <br/>
+                        <s>域的有效期是七天，过期之后域内所有文件会被自动清理。每次上传一个新文件会刷新有效期。</s>目前还没有实施。<br/>
+                        <br/>
+                        <br/>
+                        保密性说明：<br/>
+                        域里的文件可以被进入该域的任何人下载，虽然你可以使用长域名来获得保密性（如使用UUID作为域名时的保密性比银行卡密码还要高很多倍），但服务器依然是使用明文形式保存文件，在服务器硬盘资料被盗窃等不可控事情之后无法保证资料安全，所以请注意不要上传隐私文件。<br/>
+                    </p>
+                </div>
+
+                {% elif status.empty %}
+                <div class="empty">
+                    <p>该域为空。</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="col-xs-6">
+
+                <div class="field-box">
+                    <h1>当前域:</h1>
+                    <form action=""  method="GET">
+                        <input class="field-box-input" name="field" value="{{status.field}}">
+                        <input class="field-box-submit" type="submit" value="进入">
+                    </form>
+                    <br/>
+                    <br/>
+                    <h1>域描述:</h1>
+                    <form action="change_description"  method="GET">
+                            <input class="field-box-input" name="field" value="{{status.field}}" style="display: none">
+                            <input class="field-box-input" name="description" value="{{status.data.description}}">
+                            <input class="field-box-submit" type="submit" value="更改">
+                    </form>
+                    <br/>
+                    <br/>
+                    <h1>域有效期:</h1>
+                    <form action="{{url_for('clear')}}" method="GET" onsubmit="return Alert_clear();">
+                        <input class="field-box-input" name="field" value="{{status.field}}" style="display:none">
+                        <p>
+                            <s>{{format_time(status.data.expiration_date)}}</s>
+                            <input class="field-box-submit dangerous" type="submit" value="立即清空">
+                        </p>
+                    </form>
+                </div>
+
+                <div id="footer">
+                    <a href="/"><h1>Dotomato Public Field Service</h1></a>
+                    <p>{{VERSION}}</p>
+                    <p>Author: dotomato@163.com</p>
+                    <p>自由共享文件</p>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</body>
+</html>
