@@ -5,6 +5,7 @@ import urllib.parse
 import json
 import base64
 import os
+from PIL import Image, ImageDraw
 
 BASE_URL = 'http://120.25.161.56:8000'
 REQUEST_HEADERS = {
@@ -86,16 +87,47 @@ def face_identify(groupId, img_bin):
     else:
         return False, ''
 
+def multi_face_identify(groupId, img_path):
+    img_fd = open(img_path, 'rb')
+    img_bin = img_fd.read()
+    img_fd.close()
+
+    url = BASE_URL+'/face/recog/group/identify/ext1'
+    values = {
+        'groupId': groupId,
+        'img': base64.b64encode(img_bin)
+    }
+    data = urllib.parse.urlencode(values).encode('utf-8')
+    request = urllib.request.Request(url, data, REQUEST_HEADERS)
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    print(payload)
+    if payload['result'] == 0:
+        im = Image.open(img_path)
+        draw = ImageDraw.Draw(im)
+        for face in payload['faces']:
+            # name = base64.b64decode(face['tag']).decode('utf-8')
+            name = face['faceId']
+            x, y, w, h = face['x'], face['y'], face['width'], face['height']
+            draw.rectangle((x, y, x+w, y+h), outline='red', width=5)
+            draw.text((x, y), name)
+        im.save('multi_face_identify_result.jpg')
+        return True, 'multi_face_identify_result.jpg'
+    else:
+        return False, ''
+
 
 if __name__ == '__main__':
     group = 'cj'
-    recreate_yuncong_data_from_direcory(group, 'train')
+    # recreate_yuncong_data_from_direcory(group, 'train')
+    #
+    # test_img1 = open('test/1_c.jpg', 'rb').read()
+    # print('test 1_c:', face_identify(group, test_img1))
+    #
+    # test_img2 = open('test/2_d.jpg', 'rb').read()
+    # print('test 2_d:', face_identify(group, test_img2))
+    #
+    # test_img3 = open('test/3_i.jpg', 'rb').read()
+    # print('test 3_i:', face_identify(group, test_img3))
 
-    test_img1 = open('test/1_c.jpg', 'rb').read()
-    print('test 1_c:', face_identify(group, test_img1))
-
-    test_img2 = open('test/2_d.jpg', 'rb').read()
-    print('test 2_d:', face_identify(group, test_img2))
-
-    test_img3 = open('test/3_i.jpg', 'rb').read()
-    print('test 3_i:', face_identify(group, test_img3))
+    multi_face_identify(group, 'test/multi_face_identify_test.jpg')
