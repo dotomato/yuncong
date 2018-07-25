@@ -61,7 +61,7 @@ def get_info():
 
 
 @app.route('/set_info', methods=['POST'])
-def get_info():
+def set_info():
     p = json.loads(request.data, encoding='utf-8')
 
     if id is None:
@@ -74,6 +74,19 @@ def get_info():
     setdata(data)
 
     return jsonify({'result': True})
+
+
+@app.route('/track', methods=['GET'])
+def track():
+    _id = request.args.get('id', "")
+    if _id == "":
+        return jsonify([])
+    _id = int(_id)
+    data = getdata()
+    for p in data['people']:
+        if p['id'] == _id:
+            return render_template('track.html', data=data, p=p)
+    return jsonify([])
 
 
 def format_time(date):

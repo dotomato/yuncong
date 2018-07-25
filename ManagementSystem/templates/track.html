@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>学生轨迹分析</title>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+
+<section>
+
+    <div style="background:#636363; width:100%; height:80px; padding-top:20px; border-bottom: 4px solid #b53939;">
+        <h1 style="text-align:center; color:#eaeaea; margin-top:0px;">校园人脸识别平台统一管理后台</h1>
+    </div>
+
+    <div class="container">
+
+        {% if get_flashed_messages() %}
+        <div id="top-alert">
+            {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row">
+
+            <div class="col-xs-12">
+                <h2>轨迹分析控制台</h2>
+                <h3>当前查看学生:&nbsp&nbsp&nbsp<span style="color:#b53939"><strong>{{p.name}}</strong>&nbsp&nbsp&nbsp{{p.id}}</span></h3>
+                <img src="/static/img/track1.png" style="width:100%; border:2px solid #888" />
+                <p style="margin-top:30px;"><a href="/" class="a-button">返回</a></p>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

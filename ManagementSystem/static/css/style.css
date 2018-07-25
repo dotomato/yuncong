@@ -23,6 +23,10 @@ h2 {
     font-size: 24px;
 }
 
+h3 {
+    font-size: 18px;
+}
+
 #top-alert {
     position: fixed;
     top: -5px;
@@ -38,29 +42,6 @@ h2 {
     text-align: center;
 }
 
-.button{
-    width: 60px;
-    height:30px;
-    border: 2px solid #555555;
-    background: #0000;
-    cursor: pointer;
-}
-
-.button p{
-    width: 100%;
-    text-align: center;
-    color: #000;
-}
-
-.button:hover{
-    background: #b53939;
-	transition: all .1s ease-in 0s;
-}
-
-.button:hover p{
-    color: #FFF;
-}
-
 .tablestyle1 {
     width: 100%;
 }
@@ -71,4 +52,22 @@ h2 {
 
 .tablestyle1 th, td{
     padding: 10px;
+}
+
+
+.a-button{
+    padding:5px 10px;
+    border: 2px solid #555555;
+    background: #0000;
+    cursor: pointer;
+    color: #000;
+	transition: all .1s ease-in 0s;
+}
+
+
+.a-button:hover{
+    cursor: pointer;
+    color: #FFF;
+    background: #b53939;
+	transition: all .1s ease-in 0s;
 }
