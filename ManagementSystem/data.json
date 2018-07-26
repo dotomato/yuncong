@@ -6,7 +6,9 @@
     {"id": 20175251, "name":"清凌寒", "room":"1035", "img":"20175251.jpg", "money":512.7, "lessontime":3.5},
     {"id": 20171504, "name":"朱静云", "room":"352", "img":"20171504.jpg", "money":127.7, "lessontime":0},
     {"id": 20171980, "name":"钱从丹", "room":"521", "img":"20171980.jpg", "money":236.7, "lessontime":0},
-    {"id": 20171328, "name":"宰曼彤", "room":"234", "img":"20171328.jpg", "money":674.2, "lessontime":1.5}
+    {"id": 20171328, "name":"宰曼彤", "room":"234", "img":"20171328.jpg", "money":674.2, "lessontime":1.5},
+    {"id": 20171911, "name":"钱从丹", "room":"521", "img":"20171911.jpg", "money":45.7, "lessontime":0},
+    {"id": 20171322, "name":"宰曼彤", "room":"234", "img":"20171322.jpg", "money":24.2, "lessontime":1.5}
   ],
   "eating":[
     {"time": "2018-07-24 11:58:57", "id":20175251, "machine":12},

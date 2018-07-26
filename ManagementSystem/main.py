@@ -4,6 +4,7 @@ import shutil
 import time
 import uuid
 import re
+import yunconglib
 
 from flask import Flask, render_template, request, url_for, flash, redirect, send_file, abort, jsonify
 
@@ -49,15 +50,16 @@ def index():
 @app.route('/get_info', methods=['GET'])
 def get_info():
     _id = request.args.get('id', "")
+    print(_id)
     if _id == "":
-        return jsonify([])
+        return jsonify({})
     _id = int(_id)
 
     data = getdata()
     for p in data['people']:
         if p['id'] == _id:
             return jsonify(p)
-    return jsonify([])
+    return jsonify({})
 
 
 @app.route('/set_info', methods=['POST'])
