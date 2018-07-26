@@ -6,11 +6,20 @@ import json
 import base64
 import os
 from PIL import Image, ImageDraw
+from aip import AipSpeech
 
 BASE_URL = 'http://120.25.161.56:8000'
 REQUEST_HEADERS = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'
     }
+
+
+# ***************** BaiDu Ai API *******************
+
+APP_ID = '11592048'
+API_KEY = 'bcj2xdLuu8z0bo8RuGQ1Zt73'
+SECRET_KEY = 'XnYvfdw0134VYZOXcud1qN4zAfSfRHsX'
+client = AipSpeech(APP_ID, API_KEY, SECRET_KEY)
 
 
 def group_create(groupId):
@@ -117,6 +126,16 @@ def multi_face_identify(groupId, img_path):
         return False, ''
 
 
+def tts(text):
+    result = client.synthesis(text, 'zh', 1, {'per': '4'})
+    if not isinstance(result, dict):
+        with open('audio.mp3', 'wb') as f:
+            f.write(result)
+        return 'audio.mp3'
+    print(result)
+    return None
+
+
 if __name__ == '__main__':
     group = 'cj'
     # recreate_yuncong_data_from_direcory(group, 'train')
@@ -130,4 +149,6 @@ if __name__ == '__main__':
     # test_img3 = open('test/3_i.jpg', 'rb').read()
     # print('test 3_i:', face_identify(group, test_img3))
 
-    multi_face_identify(group, 'test/multi_face_identify_test.jpg')
+    # multi_face_identify(group, 'test/multi_face_identify_test.jpg')
+
+    print(tts('好像做爱做的事情啊~！'))
