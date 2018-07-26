@@ -1,3 +1,5 @@
+# -*- conding:utf-8 -*-
+
 import json
 import os
 import shutil
@@ -89,6 +91,31 @@ def track():
         if p['id'] == _id:
             return render_template('track.html', data=data, p=p)
     return jsonify([])
+
+
+@app.route('/get_cost', methods=['GET'])
+def get_cost():
+    _id = request.args.get('id', "")
+    if _id == "":
+        return ''
+    _id = int(_id)
+    data = getdata()
+    money = 0
+    name = ''
+    for p in data['people']:
+        if p['id'] == _id:
+            name = p['name']
+            money = p['money']
+    cost_list = []
+    for i in data['eating']:
+        if i['id'] == _id:
+            cost_list.append(i['cost'])
+        if len(cost_list) == 5:
+            break
+    s = '您好{}同学，你目前余额为{}元\n最近的五笔消费为：\n'.format(name, money)
+    for i in range(len(cost_list)):
+        s += '[{}]: {}元\n'.format(i+1, cost_list[i])
+    return s
 
 
 def format_time(date):

@@ -4,6 +4,7 @@ import urllib.request
 import urllib.parse
 import json
 import base64
+import time
 import os
 from PIL import Image, ImageDraw, ImageFont
 from aip import AipSpeech

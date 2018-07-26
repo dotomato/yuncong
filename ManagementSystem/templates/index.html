@@ -116,18 +116,19 @@
             </div>
 
 
-            <div style="margin-top:30px" class="col-xs-4">
+            <div style="margin-top:30px" class="col-xs-6">
                 <h2>最近五次点餐记录</h2>
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
                         <th>时间</th>
                         <th>学号</th>
                         <th>终端号</th>
+                        <th>费用</th>
                     </tr>
 
-                    {% for p in data.eating %}
+                    {% for p in data.eating[:5] %}
                     <tr>
-                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
+                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.cost}}</td>
                     </tr>
                     {% endfor %}
 
@@ -137,7 +138,7 @@
             </div>
 
 
-            <div style="margin-top:30px" class="col-xs-4">
+            <div style="margin-top:30px" class="col-xs-6">
                 <h2>最近五次上课签到记录</h2>
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
@@ -146,7 +147,7 @@
                         <th>终端号</th>
                     </tr>
 
-                    {% for p in data.lesson %}
+                    {% for p in data.lesson[:5] %}
                     <tr>
                         <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
                     </tr>
@@ -158,7 +159,7 @@
             </div>
 
 
-            <div style="margin-top:30px" class="col-xs-4">
+            <div style="margin-top:30px" class="col-xs-6">
                 <h2>最近五次宿舍开门记录</h2>
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
@@ -167,7 +168,7 @@
                         <th>终端号</th>
                     </tr>
 
-                    {% for p in data.door %}
+                    {% for p in data.door[:5] %}
                     <tr>
                         <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
                     </tr>
@@ -189,7 +190,7 @@
                         <th>异常行为类别</th>
                     </tr>
 
-                    {% for p in data.error %}
+                    {% for p in data.error[:10] %}
                     <tr>
                         <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.errortype}}</td>
                     </tr>
