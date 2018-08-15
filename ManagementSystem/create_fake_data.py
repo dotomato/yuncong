@@ -43,20 +43,12 @@ data['eating'] = []
 for i in range(100):
     data['eating'].append({'time':gen_time(), 'id':pick_id(), 'machine':gen_machine(), 'cost': fix_money(0.2*random.randint(10, 100))})
 
-data['lesson'] = []
-for i in range(100):
-    data['lesson'].append({'time':gen_time(), 'id':pick_id(), 'machine':gen_machine()})
-
-data['door'] = []
-for i in range(100):
-    data['door'].append({'time':gen_time(), 'id':pick_id(), 'machine':gen_machine()})
-
 data['error'] = []
 for i in range(100):
     data['error'].append({'time':gen_time(), 'id':pick_id(), 'machine':gen_machine(), 'errortype':pick_error()})
 
 
-for key in ['eating', 'lesson', 'door', 'error']:
+for key in ['eating', 'error']:
     data[key].sort(key=lambda x: x['time'], reverse=True)
     for item in data[key]:
         item['time'] = format_time(item['time'])

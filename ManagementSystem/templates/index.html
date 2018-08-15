@@ -116,7 +116,7 @@
             </div>
 
 
-            <div style="margin-top:30px" class="col-xs-6">
+            <div style="margin-top:30px" class="col-xs-12">
                 <h2>最近五次点餐记录</h2>
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
@@ -129,48 +129,6 @@
                     {% for p in data.eating[:5] %}
                     <tr>
                         <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.cost}}</td>
-                    </tr>
-                    {% endfor %}
-
-                </table>
-
-                <p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>
-            </div>
-
-
-            <div style="margin-top:30px" class="col-xs-6">
-                <h2>最近五次上课签到记录</h2>
-                <table border="1" style="margin-top:20px;" class="tablestyle1">
-                    <tr>
-                        <th>时间</th>
-                        <th>学号</th>
-                        <th>终端号</th>
-                    </tr>
-
-                    {% for p in data.lesson[:5] %}
-                    <tr>
-                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
-                    </tr>
-                    {% endfor %}
-
-                </table>
-
-                <p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>
-            </div>
-
-
-            <div style="margin-top:30px" class="col-xs-6">
-                <h2>最近五次宿舍开门记录</h2>
-                <table border="1" style="margin-top:20px;" class="tablestyle1">
-                    <tr>
-                        <th>时间</th>
-                        <th>学号</th>
-                        <th>终端号</th>
-                    </tr>
-
-                    {% for p in data.door[:5] %}
-                    <tr>
-                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td>
                     </tr>
                     {% endfor %}
 
