@@ -82,15 +82,8 @@ def set_info():
 
 @app.route('/track', methods=['GET'])
 def track():
-    _id = request.args.get('id', "")
-    if _id == "":
-        return jsonify([])
-    _id = int(_id)
     data = getdata()
-    for p in data['people']:
-        if p['id'] == _id:
-            return render_template('track.html', data=data, p=p)
-    return jsonify([])
+    return render_template('track.html', data=data)
 
 
 @app.route('/get_cost', methods=['GET'])

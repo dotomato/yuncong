@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>校园人脸识别平台统一管理后台</title>
+    <title>校园智慧餐厅管理后台</title>
 
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
@@ -51,7 +51,7 @@
 <section>
 
     <div style="background:#636363; width:100%; height:80px; padding-top:20px; border-bottom: 4px solid #b53939;">
-        <h1 style="text-align:center; color:#eaeaea; margin-top:0px;">校园人脸识别平台统一管理后台</h1>
+        <h1 style="text-align:center; color:#eaeaea; margin-top:0px;">校园智慧餐厅管理后台</h1>
     </div>
 
     <div class="container">
@@ -98,17 +98,15 @@
                         <th>学号</th>
                         <th>宿舍号</th>
                         <th>余额</th>
-                        <th>缺席课时</th>
                         <th>人脸照片</th>
                         <th>修改</th>
                         <th>删除</th>
-                        <th>轨迹分析</th>
                     </tr>
 
                     {% for p in data.people %}
                     <tr>
-                        <td>{{p.name}}</td> <td>{{p.id}}</td> <td>{{p.room}}</td> <td>{{p.money}}</td> <td>{{p.lessontime}}</td> <td>{{p.img}}</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td> <td><a href="track?id={{p.id}}">轨迹分析</a></td>
+                        <td>{{p.name}}</td> <td>{{p.id}}</td> <td>{{p.room}}</td> <td>{{p.money}}</td> <td>{{p.img}}</td>
+                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
                     </tr>
                     {% endfor %}
 
@@ -117,18 +115,21 @@
 
 
             <div style="margin-top:30px" class="col-xs-12">
-                <h2>最近五次点餐记录</h2>
+                <h2>最近十次点餐记录</h2>
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
                         <th>时间</th>
                         <th>学号</th>
                         <th>终端号</th>
+                        <th>菜品名</th>
+                        <th>忌口</th>
                         <th>费用</th>
+                        <th>所属餐厅</th>
                     </tr>
 
-                    {% for p in data.eating[:5] %}
+                    {% for p in data.eating[:10] %}
                     <tr>
-                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.cost}}</td>
+                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.food}}</td> <td>{{p.jiko}}</td> <td>{{p.cost}}</td> <td>{{p.hall}}</td>
                     </tr>
                     {% endfor %}
 
@@ -139,18 +140,18 @@
 
 
             <div style="margin-top:30px" class="col-xs-12">
-                <h2>最近十次异常行为记录</h2>
+                <h2>热门菜品分析</h2>
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
-                        <th>时间</th>
-                        <th>学号</th>
-                        <th>终端号</th>
-                        <th>异常行为类别</th>
+                        <th>菜品名</th>
+                        <th>所属食堂</th>
+                        <th>价格</th>
+                        <th>最近消费次数</th>
                     </tr>
 
-                    {% for p in data.error[:10] %}
+                    {% for p in data.fav_food %}
                     <tr>
-                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.errortype}}</td>
+                        <td>{{p.food}}</td> <td>{{p.hall}}</td> <td>{{p.cost}}</td> <td>{{p.times}}</td>
                     </tr>
                     {% endfor %}
 
@@ -158,6 +159,15 @@
 
                 <p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>
             </div>
+
+
+            <div class="col-xs-12">
+                <h2>食堂活跃度分析</h2>
+
+                <img src="/static/img/track1.png" style="width:100%; border:2px solid #888" />
+                <p style="margin-top:30px;"><a href="/" class="a-button">返回</a></p>
+            </div>
+
         </div>
 
         <div id="footer">
