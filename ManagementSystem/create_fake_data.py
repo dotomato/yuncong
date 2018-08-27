@@ -31,7 +31,7 @@ def format_time(date):
 def fix_money(x):
     return int(x * 100) / 100
 
-data = {'people': [], 'eating': [], 'food': []}
+data = {'people': [], 'eating': [], 'food': [], 'kv': []}
 
 # for i in range(len(name_list)):
 #     data['people'].append(

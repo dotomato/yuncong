@@ -232,14 +232,32 @@ def get_cost():
     return s
 
 
+@app.route('/kv_add', methods=['POST'])
+def kv_add():
+    payload = request.get_data()
+    p = json.load(payload)
+    data = _getdata()
+    data['kv'].append({'key': p['key'], 'value': p['value']})
+    _setdata(data)
+    return jsonify({'result': True})
+
+
+@app.route('/kv_get', methods=['GET'])
+def kv_get():
+    p_key = request.args.get('key', '')
+
+    data = _getdata()
+    for p in data['kv']:
+        if p['key'] == p_key:
+            return p['value']
+    return ''
+
+
 
 # *******************  Inner Function ******************#
 
-
 def _format_time(date):
     return time.strftime("%Y/%m/%d %H:%M:%S", time.localtime(date))
-
-
 app.add_template_global(_format_time)
 
 
