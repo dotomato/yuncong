@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>校园智慧餐厅管理后台-新增菜品</title>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    function F_Open_dialog()
+    {
+        document.getElementById("upload_file_selector").click();
+    }
+
+    function F_Change()
+    {
+        document.getElementById("upload_h3_2").innerHTML="Uploading ……";
+        document.getElementById("upload_p").innerHTML='<i class="fa fa-hourglass fa-spin"></i>'
+        document.getElementById("upload_file_btn").click();
+    }
+
+    $(document).ready(function(){
+        setTimeout("Alert_close()",1000)
+    })
+
+    function Alert_close()
+    {
+        $("#top-alert").animate({top:"-70px"}, 1000);
+    }
+
+    </script>
+</head>
+<body>
+
+<form action="" method="post" enctype="multipart/form-data"  style="display:none">
+    <input id="upload_file_selector" type="file" name="upload_file" onchange="F_Change()"/>
+    <input id="upload_file_btn" type="submit" value="Upload" />
+</form>
+
+
+
+
+<section>
+
+    <div style="background:#636363; width:100%; height:80px; padding-top:20px; border-bottom: 4px solid #b53939;">
+        <h1 style="text-align:center; color:#eaeaea; margin-top:0px;">校园智慧餐厅管理后台-新增菜品</h1>
+    </div>
+
+    <div class="container">
+
+        {% if get_flashed_messages() %}
+        <div id="top-alert">
+            {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row">
+
+            <div class="col-xs-12">
+                <h2>新增菜品信息</h2>
+
+                <form action="add_food" enctype="multipart/form-data" method="post">
+                    <p>菜品名： <input type="text" name="name"/> </p>
+                    <p>所属食堂： <input type="text" name="hall"/> </p>
+                    <p>价格： <input type="text" name="cost"/> </p>
+                    <p>主要材料： <input type="text" name="materials"/> </p>
+                    <p>肉素类别： <input type="text" name="vegetarian"/> </p>
+                    <p>口味： <input type="text" name="taste"/> </p>
+                    <input type="submit" value="确定" />
+                </form>
+            </div>
+
+        </div>
+
+        <div id="footer">
+            <div style="width:100%; height:200px;">
+
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+
+
+</body>
+</html>

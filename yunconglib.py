@@ -163,6 +163,8 @@ def tts(text):
 
 if __name__ == '__main__':
     group = 'cj'
+    group_delete(group)
+    group_create(group)
     # recreate_yuncong_data_from_direcory(group, 'train')
     #
     # test_img1 = open('test/1_c.jpg', 'rb').read()
@@ -174,6 +176,6 @@ if __name__ == '__main__':
     # test_img3 = open('test/3_i.jpg', 'rb').read()
     # print('test 3_i:', face_identify(group, test_img3))
 
-    multi_face_identify(group, 'test/multi_face_identify_test.jpg')
+    # multi_face_identify(group, 'test/multi_face_identify_test.jpg')
 
     # print(tts('好像做爱做的事情啊~！'))

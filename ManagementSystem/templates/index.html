@@ -87,7 +87,7 @@
             </div>
 
             <div class="col-xs-12">
-                <p><a href="/" class="a-button">新增</a>&nbsp&nbsp&nbsp<a href="/" class="a-button">查询</a></p>
+                <p><a href="/add_user" class="a-button">新增</a>&nbsp&nbsp&nbsp<a href="/" class="a-button">查询</a></p>
             </div>
 
 
@@ -96,17 +96,18 @@
                     <tr>
                         <th>姓名</th>
                         <th>学号</th>
-                        <th>宿舍号</th>
+                        <th>专业</th>
+                        <th>年龄</th>
                         <th>余额</th>
                         <th>人脸照片</th>
                         <th>修改</th>
                         <th>删除</th>
                     </tr>
 
-                    {% for p in data.people %}
+                    {% for p in data.people[:10] %}
                     <tr>
-                        <td>{{p.name}}</td> <td>{{p.id}}</td> <td>{{p.room}}</td> <td>{{p.money}}</td> <td>{{p.img}}</td>
-                        <td><a href="#">修改</a></td> <td><a href="#">删除</a></td>
+                        <td>{{p.name}}</td> <td>{{p.student_id}}</td> <td>{{p.major}}</td> <td>{{p.age}}</td> <td>{{p.money}}</td> <td>{{p.img}}</td>
+                        <td><a href="#">修改</a></td> <td><a href="/delete_user?student_id={{p.student_id}}">删除</a></td>
                     </tr>
                     {% endfor %}
 
@@ -129,39 +130,64 @@
 
                     {% for p in data.eating[:10] %}
                     <tr>
-                        <td>{{p.time}}</td> <td>{{p.id}}</td> <td>{{p.machine}}</td> <td>{{p.food}}</td> <td>{{p.jiko}}</td> <td>{{p.cost}}</td> <td>{{p.hall}}</td>
+                        <td>{{p.time}}</td>
+                        <td>{{p.student_id}}</td>
+                        <td>{{p.machine}}</td>
+                        <td>{{p.food}}</td>
+                        <td>{{p.jiko}}</td>
+                        <td>{{p.cost}}</td>
+                        <td>{{p.hall}}</td>
                     </tr>
                     {% endfor %}
 
                 </table>
 
-                <p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>
+                <!--<p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>-->
+            </div>
+
+            <div style="margin-top:30px" class="col-xs-12">
+                <h2>菜品列表</h2>
+            </div>
+
+            <div class="col-xs-12">
+                <p><a href="/add_food" class="a-button">新增菜品</a></p>
+            </div>
+
+            <div class="col-xs-12">
+                <table border="1" style="margin-top:20px;" class="tablestyle1">
+                    <tr>
+                        <th>ID</th>
+                        <th>菜品名</th>
+                        <th>所属食堂</th>
+                        <th>价格</th>
+                        <th>主要材料</th>
+                        <th>肉素类别</th>
+                        <th>口味</th>
+                        <th>最近消费次数</th>
+                        <th>删除</th>
+                    </tr>
+
+                    {% for p in data.food %}
+                    <tr>
+                        <td>{{p.food_id}}</td>
+                        <td>{{p.name}}</td>
+                        <td>{{p.hall}}</td>
+                        <td>{{p.cost}}</td>
+                        <td>{{p.materials}}</td>
+                        <td>{{p.vegetarian}}</td>
+                        <td>{{p.taste}}</td>
+                        <td>{{p.times}}</td>
+                        <td><a href="/delete_food?food_id={{p.food_id}}">删除</a></td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+
+                <!--<p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>-->
             </div>
 
 
             <div style="margin-top:30px" class="col-xs-12">
-                <h2>热门菜品分析</h2>
-                <table border="1" style="margin-top:20px;" class="tablestyle1">
-                    <tr>
-                        <th>菜品名</th>
-                        <th>所属食堂</th>
-                        <th>价格</th>
-                        <th>最近消费次数</th>
-                    </tr>
-
-                    {% for p in data.fav_food %}
-                    <tr>
-                        <td>{{p.food}}</td> <td>{{p.hall}}</td> <td>{{p.cost}}</td> <td>{{p.times}}</td>
-                    </tr>
-                    {% endfor %}
-
-                </table>
-
-                <p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>
-            </div>
-
-
-            <div class="col-xs-12">
                 <h2>食堂活跃度分析</h2>
 
                 <img src="/static/img/track1.png" style="width:100%; border:2px solid #888" />
