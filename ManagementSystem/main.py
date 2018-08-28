@@ -164,6 +164,13 @@ def delete_food():
     return redirect('/')
 
 
+@app.route('/start_train', methods=['GET'])
+def start_train():
+
+    flash('训练模型成功')
+
+    return redirect('/')
+
 # *******************  API ******************#
 
 @app.route('/get_info_by_student_id', methods=['GET'])
@@ -258,6 +265,17 @@ def get_cost():
     for i in range(len(cost_list)):
         s += '[{}]: {}元\n'.format(i + 1, cost_list[i])
     return s
+
+
+@app.route('/get_recommend', methods=['GET'])
+def get_recommend():
+    student_id = request.args.get('student_id', "")
+
+    data = _getdata()
+    food = random.choice(data['food'])
+
+    return jsonify(food)
+
 
 
 @app.route('/kv_add', methods=['POST'])
