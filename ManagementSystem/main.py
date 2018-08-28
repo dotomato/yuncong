@@ -88,6 +88,68 @@ def add_user():
         return redirect('/')
 
 
+
+@app.route('/mod_user', methods=['GET', 'POST'])
+def mod_user():
+    student_id = request.args.get('student_id', "")
+    data = _getdata()
+
+    # *******************  GET ******************#
+    if request.method == 'GET':
+        for p in data['people']:
+            if p['student_id'] == student_id:
+                return render_template('mod_user.html', cur_user=p)
+        return redirect('/')
+
+    # *******************  POST ******************#
+
+    if request.method == 'POST':
+
+        img = request.files['img']
+
+        new_p = {
+            'name': request.form.get('name', ""),
+            'student_id': request.form.get('student_id', "000"),
+            'major': request.form.get('major', ""),
+            'age': request.form.get('age', "18"),
+            'money': request.form.get('money', "0.00"),
+            'img': img.filename,
+        }
+
+        for p in data['people']:
+            if p['student_id'] == new_p['student_id']:
+
+                img.save('temp.jpg')
+
+                img_file = open('temp.jpg', 'rb')
+
+                img_bin = img_file.read()
+
+                img_file.close()
+
+                result = yuncongserverlib.face_edit('cj', p['yuncong_id'], img_bin)
+
+                os.remove('temp.jpg')
+
+
+                if result:
+
+                    p['name'] = new_p['name']
+                    p['major'] = new_p['major']
+                    p['age'] = new_p['age']
+                    p['img'] = new_p['img']
+
+                    _setdata(data)
+
+                    flash('修改用户信息成功')
+
+                else:
+
+                    flash('修改用户信息失败')
+
+        return redirect('/')
+
+
 @app.route('/delete_user', methods=['GET'])
 def delete_user():
     student_id = request.args.get('student_id', "")

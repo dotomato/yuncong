@@ -57,6 +57,24 @@ def face_create(groupId, img_bin):
         return False, -1
 
 
+def face_edit(groupId, faceId, img_bin):
+    url = BASE_URL+'/face/clustering/face/edit'
+    values = {
+        'groupId': groupId,
+        'faceId': faceId,
+        'tag': 'fuck',
+        'img': base64.b64encode(img_bin)
+    }
+    data = urllib.parse.urlencode(values).encode('utf-8')
+    request = urllib.request.Request(url, data, REQUEST_HEADERS)
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    if payload['result'] == 0:
+        return True
+    else:
+        return False
+
+
 if __name__ == '__main__':
     group = 'cj'
     group_delete(group)
