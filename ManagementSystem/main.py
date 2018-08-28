@@ -49,10 +49,10 @@ def add_user():
 
         p = {
             'name': request.form.get('name', ""),
-            'student_id': request.form.get('student_id', ""),
+            'student_id': request.form.get('student_id', "000"),
             'major': request.form.get('major', ""),
-            'age': request.form.get('age', ""),
-            'money': request.form.get('money', ""),
+            'age': request.form.get('age', "18"),
+            'money': request.form.get('money', "0.00"),
             'img': img.filename,
         }
 
@@ -123,7 +123,6 @@ def add_food():
             food_id = int(data['food'][i]['food_id']) + 1
 
     if request.method == 'POST':
-
         p = {
             'food_id': str(food_id),
             'name': request.form.get('name', ""),
@@ -165,7 +164,6 @@ def delete_food():
     return redirect('/')
 
 
-
 # *******************  API ******************#
 
 @app.route('/get_info_by_student_id', methods=['GET'])
@@ -191,21 +189,51 @@ def get_info_by_yuncong_id():
     return jsonify({})
 
 
-@app.route('/add_cost', methods=['GET'])
-def add_cost():
-    new_cost = {'time': time.time(),
+@app.route('/add_book', methods=['GET'])
+def add_book():
+    new_cost = {'time': _format_time(time.time()),
                 'student_id': request.args.get('student_id', ""),
                 'machine': request.args.get('machine', ""),
                 'food': request.args.get('food', ""),
                 'cost': request.args.get('cost', ""),
                 'hall': request.args.get('hall', ""),
-                'jiko': request.args.get('jiko', "")
+                'jiko': request.args.get('jiko', ""),
+                'uuid': _generate_uuid()
                 }
 
     data = _getdata()
-    data['eating'].append(new_cost)
+    data['book'].append(new_cost)
     _setdata(data)
     return jsonify({'result': True})
+
+
+# 删除book记录，并对学生的余额进行扣费
+@app.route('/finish_book', methods=['GET'])
+def finish_book():
+    _uuid = request.args.get('uuid', "")
+    data = _getdata()
+    for p in data['book']:
+        if p['uuid'] == _uuid:
+
+            data['eating'].append(p)
+            cost = p['cost']
+            student_id = p['student_id']
+            for p1 in data['people']:
+                if p1['student_id'] == student_id:
+                    p1['money'] = '%0.2f' % (float(p1['money']) - float(cost))
+                    break
+
+            data['book'].remove(p)
+            _setdata(data)
+            return jsonify({'result': True})
+
+    return jsonify({'result': False})
+
+
+@app.route('/get_book_list', methods=['GET'])
+def get_book_list():
+    data = _getdata()
+    return jsonify(data['book'])
 
 
 @app.route('/get_cost', methods=['GET'])
@@ -253,11 +281,16 @@ def kv_get():
     return ''
 
 
-
 # *******************  Inner Function ******************#
+
+def _generate_uuid():
+    return str(uuid.uuid4()).lower()
+
 
 def _format_time(date):
     return time.strftime("%Y/%m/%d %H:%M:%S", time.localtime(date))
+
+
 app.add_template_global(_format_time)
 
 
@@ -282,4 +315,4 @@ def _setdata(data):
 
 if __name__ == '__main__':
     app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=5000)

@@ -31,7 +31,7 @@ def format_time(date):
 def fix_money(x):
     return int(x * 100) / 100
 
-data = {'people': [], 'eating': [], 'food': [], 'kv': []}
+data = {'people': [], 'eating': [], 'food': [], 'book': [], 'kv': []}
 
 # for i in range(len(name_list)):
 #     data['people'].append(
@@ -43,16 +43,16 @@ data = {'people': [], 'eating': [], 'food': [], 'kv': []}
 #             'money': fix_money(100 + random.random() * 1000),
 #         })
 
-for i in range(10):
-    x = random.randint(0, len(food_list)-1)
-    data['eating'].append(
-        {'time': gen_time(),
-         'student_id': random.choice(id_list),
-         'machine': gen_machine(),
-         'food': food_list[x],
-         'cost': food_money_list[x],
-         'hall': food_hall_list[x],
-         'jiko': random.choice(jiko_list)})
+# for i in range(10):
+#     x = random.randint(0, len(food_list)-1)
+#     data['eating'].append(
+#         {'time': gen_time(),
+#          'student_id': random.choice(id_list),
+#          'machine': gen_machine(),
+#          'food': food_list[x],
+#          'cost': food_money_list[x],
+#          'hall': food_hall_list[x],
+#          'jiko': random.choice(jiko_list)})
 
 for i in range(len(food_list)):
     data['food'].append(
@@ -68,10 +68,10 @@ for i in range(len(food_list)):
          }
     )
 
-for key in ['eating']:
-    data[key].sort(key=lambda x: x['time'], reverse=True)
-    for item in data[key]:
-        item['time'] = format_time(item['time'])
+# for key in ['eating']:
+#     data[key].sort(key=lambda x: x['time'], reverse=True)
+#     for item in data[key]:
+#         item['time'] = format_time(item['time'])
 
 fd = open('data.json', 'w', encoding='utf-8')
 json.dump(data, fd)
