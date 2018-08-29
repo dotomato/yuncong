@@ -18,6 +18,9 @@ app.config['SECRET_KEY'] = str(uuid.uuid4())
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1 * 24 * 60 * 60
 
 
+# *******************  YunCong Configuration ******************#
+group = 'cj'
+
 # *******************  View ******************#
 
 @app.route('/', methods=['GET', 'POST'])
@@ -65,7 +68,7 @@ def add_user():
 
         img_file.close()
 
-        result = yuncongserverlib.face_create('cj', img_bin)
+        result = yuncongserverlib.face_create(group, img_bin)
 
         os.remove('temp.jpg')
 
@@ -129,7 +132,7 @@ def mod_user():
 
                 img_file.close()
 
-                result = yuncongserverlib.face_edit('cj', p['yuncong_id'], img_bin)
+                result = yuncongserverlib.face_edit(group, p['yuncong_id'], img_bin)
 
                 os.remove('temp.jpg')
 

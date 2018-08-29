@@ -3,6 +3,9 @@
 import time
 import json
 import random
+import yuncongserverlib
+
+group = 'cj'
 
 name_list = ['杨骏', '陈君', '周鸿宇', '孟海宁', '魏润宇', '顾一']
 id_list = ['201618001027062', '201628017729007', '201628017728027', '201718013229035', '201618001027061', '201618001027063']
@@ -68,10 +71,21 @@ def get_student_eating_jiko(i):
 
 data = {'people': [], 'eating': [], 'food': [], 'book': [], 'kv': []}
 
+yuncongserverlib.group_delete(group)
+yuncongserverlib.group_create(group)
+
 for i in range(len(name_list)):
+    img_file = open('people/'+id_list[i]+'.jpg', 'rb')
+    img_bin = img_file.read()
+    img_file.close()
+    result = yuncongserverlib.face_create(group, img_bin)
+    print(result)
+    if not result[0]:
+        exit(-1)
+
     data['people'].append(
         {
-            'yuncong_id': i,
+            'yuncong_id': result[1],
             'student_id': id_list[i],
             'name': name_list[i],
             'gender': gender_list[i],
