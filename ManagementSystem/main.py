@@ -49,6 +49,7 @@ def add_user():
 
         p = {
             'name': request.form.get('name', ""),
+            'gender': request.form.get('gender', ""),
             'student_id': request.form.get('student_id', "000"),
             'major': request.form.get('major', ""),
             'age': request.form.get('age', "18"),
@@ -109,6 +110,7 @@ def mod_user():
 
         new_p = {
             'name': request.form.get('name', ""),
+            'gender': request.form.get('gender', ""),
             'student_id': request.form.get('student_id', "000"),
             'major': request.form.get('major', ""),
             'age': request.form.get('age', "18"),
@@ -135,6 +137,7 @@ def mod_user():
                 if result:
 
                     p['name'] = new_p['name']
+                    p['gender'] = new_p['gender']
                     p['major'] = new_p['major']
                     p['age'] = new_p['age']
                     p['img'] = new_p['img']
@@ -264,16 +267,24 @@ def add_book():
                 'student_id': request.args.get('student_id', ""),
                 'machine': request.args.get('machine', ""),
                 'food': request.args.get('food', ""),
-                'cost': request.args.get('cost', ""),
+                # 'cost': request.args.get('cost', ""),
                 'hall': request.args.get('hall', ""),
                 'jiko': request.args.get('jiko', ""),
                 'uuid': _generate_uuid()
                 }
 
+
     data = _getdata()
-    data['book'].append(new_cost)
-    _setdata(data)
-    return jsonify({'result': True})
+
+    for p in data['food']:
+        if p['name'] == new_cost['food']:
+            new_cost['cost'] = p['cost']
+
+            data['book'].append(new_cost)
+            _setdata(data)
+            return jsonify({'result': True})
+
+    return jsonify({'result': False})
 
 
 # 删除book记录，并对学生的余额进行扣费
@@ -303,6 +314,12 @@ def finish_book():
 def get_book_list():
     data = _getdata()
     return jsonify(data['book'])
+
+
+@app.route('/get_food_list', methods=['GET'])
+def get_food_list():
+    data = _getdata()
+    return jsonify(data['food'])
 
 
 @app.route('/get_cost', methods=['GET'])

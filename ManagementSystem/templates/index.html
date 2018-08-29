@@ -95,6 +95,7 @@
                 <table border="1" style="margin-top:20px;" class="tablestyle1">
                     <tr>
                         <th>姓名</th>
+                        <th>性别</th>
                         <th>学号</th>
                         <th>专业</th>
                         <th>年龄</th>
@@ -107,6 +108,7 @@
                     {% for p in data.people[:10] %}
                     <tr>
                         <td>{{p.name}}</td>
+                        <td>{{p.gender}}</td>
                         <td>{{p.student_id}}</td>
                         <td>{{p.major}}</td>
                         <td>{{p.age}}</td>

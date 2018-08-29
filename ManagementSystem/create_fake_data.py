@@ -4,8 +4,12 @@ import time
 import json
 import random
 
-name_list = ['黄浩岚', '湛淑兰', '竹飞兰', '清凌寒', '朱静云', '钱从丹', '宰曼彤', '西南非', '枯棕奈']
-id_list = ['20175635', '20174922', '20179467', '20175251', '20171504', '20171980', '20171328', '20171911', '20171322']
+name_list = ['杨骏', '陈君', '周鸿宇', '孟海宁', '魏润宇', '顾一']
+id_list = ['201618001027062', '201628017729007', '201628017728027', '201718013229035', '201618001027061', '201618001027063']
+gender_list = ['男', '男', '男', '女', '男', '女']
+major_list = ['电子信息工程', '计算机应用技术', '模式识别', '电子信息工程', '电子信息工程', '电子信息工程']
+age_list = ['23', '24', '23', '22', '23', '22', '23']
+
 food_list = ['小炒肉', '木须肉', '手撕包菜', '清焖莲子', '青葱牛柳', '苦瓜炒牛肉', '龙井虾仁', '鱼香肉丝', '凉拌黑木耳', '西红柿炒鸡蛋', '酸辣土豆丝', '红烧狮子头', '孜然羊肉']
 materials_list = ['猪肉', '牛肉', '羊肉', '素菜']
 vegetarian_list = ['素菜', '肉菜', '肉素混合']
@@ -31,28 +35,53 @@ def format_time(date):
 def fix_money(x):
     return int(x * 100) / 100
 
+
+def get_student_fav_food(i):
+    student_id = id_list[i]
+    h = hash(student_id)
+    c = len(food_list)
+    return abs(h) % c
+
+
+def get_student_eating_food(i):
+    fav = get_student_fav_food(i)
+    if random.random() < 0.9:
+        return fav
+    else:
+        return random.randint(0, len(food_list)-1)
+
+
+def get_student_fav_jiko(i):
+    student_id = id_list[i]
+    h = hash(student_id)
+    c = len(jiko_list)
+    return abs(h) % c
+
+
+def get_student_eating_jiko(i):
+    fav = get_student_fav_jiko(i)
+    if random.random() < 0.9:
+        return fav
+    else:
+        return random.randint(0, len(jiko_list)-1)
+
+
 data = {'people': [], 'eating': [], 'food': [], 'book': [], 'kv': []}
 
-# for i in range(len(name_list)):
-#     data['people'].append(
-#         {
-#             'id': id_list[i],
-#             'name': name_list[i],
-#             'room': random.randint(0, 1000),
-#             'img': str(id_list[i]) + '.jpg',
-#             'money': fix_money(100 + random.random() * 1000),
-#         })
+for i in range(len(name_list)):
+    data['people'].append(
+        {
+            'yuncong_id': i,
+            'student_id': id_list[i],
+            'name': name_list[i],
+            'gender': gender_list[i],
+            'major': major_list[i],
+            'age': age_list[i],
+            'room': str(random.randint(0, 1000)),
+            'img': id_list[i] + '.jpg',
+            'money': str(fix_money(100 + random.random() * 1000))
+        })
 
-# for i in range(10):
-#     x = random.randint(0, len(food_list)-1)
-#     data['eating'].append(
-#         {'time': gen_time(),
-#          'student_id': random.choice(id_list),
-#          'machine': gen_machine(),
-#          'food': food_list[x],
-#          'cost': food_money_list[x],
-#          'hall': food_hall_list[x],
-#          'jiko': random.choice(jiko_list)})
 
 for i in range(len(food_list)):
     data['food'].append(
@@ -68,10 +97,26 @@ for i in range(len(food_list)):
          }
     )
 
-# for key in ['eating']:
-#     data[key].sort(key=lambda x: x['time'], reverse=True)
-#     for item in data[key]:
-#         item['time'] = format_time(item['time'])
+
+for i in range(100):
+    student_index = random.randint(0, len(name_list) - 1)
+    x1 = get_student_eating_food(student_index)
+    x2 = get_student_eating_jiko(student_index)
+    data['eating'].append(
+        {'time': gen_time(),
+         'student_id': id_list[student_index],
+         'machine': gen_machine(),
+         'food': food_list[x1],
+         'cost': food_money_list[x1],
+         'hall': food_hall_list[x1],
+         'jiko': jiko_list[x2]})
+
+
+for key in ['eating']:
+    data[key].sort(key=lambda x: x['time'], reverse=True)
+    for item in data[key]:
+        item['time'] = format_time(item['time'])
+
 
 fd = open('data.json', 'w', encoding='utf-8')
 json.dump(data, fd)
