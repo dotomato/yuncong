@@ -100,7 +100,7 @@
                         <th>专业</th>
                         <th>年龄</th>
                         <th>余额</th>
-                        <th>人脸照片</th>
+                        <th>手机</th>
                         <th>人脸编号</th>
                         <th>修改</th>
                         <th>删除</th>
@@ -114,7 +114,7 @@
                         <td>{{p.major}}</td>
                         <td>{{p.age}}</td>
                         <td>{{p.money}}</td>
-                        <td>{{p.img}}</td>
+                        <td>{{p.phone}}</td>
                         <td>{{p.yuncong_id}}</td>
                         <td><a href="/mod_user?student_id={{p.student_id}}">修改</a></td>
                         <td><a href="/delete_user?student_id={{p.student_id}}">删除</a></td>
@@ -153,6 +153,11 @@
                 </table>
 
                 <!--<p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>-->
+            </div>
+
+
+            <div style="margin-top:30px"  class="col-xs-12">
+                <p><a href="/all_eating" class="a-button">所有点菜信息</a></p>
             </div>
 
             <div style="margin-top:30px" class="col-xs-12">

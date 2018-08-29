@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>校园智慧餐厅管理后台-修改用户信息</title>
+    <title>校园智慧餐厅管理后台-全部点菜记录</title>
 
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
@@ -51,7 +51,7 @@
 <section>
 
     <div style="background:#636363; width:100%; height:80px; padding-top:20px; border-bottom: 4px solid #b53939;">
-        <h1 style="text-align:center; color:#eaeaea; margin-top:0px;">校园智慧餐厅管理后台-修改用户信息</h1>
+        <h1 style="text-align:center; color:#eaeaea; margin-top:0px;">校园智慧餐厅管理后台-全部点菜记录</h1>
     </div>
 
     <div class="container">
@@ -66,22 +66,33 @@
 
         <div class="row">
 
-            <div class="col-xs-12">
-                <h2>修改用户信息</h2>
+            <div style="margin-top:30px" class="col-xs-12">
+                <table border="1" style="margin-top:20px;" class="tablestyle1">
+                    <tr>
+                        <th>时间</th>
+                        <th>学号</th>
+                        <th>终端号</th>
+                        <th>菜品名</th>
+                        <th>忌口</th>
+                        <th>费用</th>
+                        <th>所属餐厅</th>
+                    </tr>
 
-                <h3>当前用户学号： {{cur_user.student_id}}</h3>
+                    {% for p in data.eating %}
+                    <tr>
+                        <td>{{p.time}}</td>
+                        <td>{{p.student_id}}</td>
+                        <td>{{p.machine}}</td>
+                        <td>{{p.food}}</td>
+                        <td>{{p.jiko}}</td>
+                        <td>{{p.cost}}</td>
+                        <td>{{p.hall}}</td>
+                    </tr>
+                    {% endfor %}
 
-                <form action="mod_user" enctype="multipart/form-data" method="post">
-                    <p>姓名： <input type="text" name="name" value="{{cur_user.name}}"/> </p>
-                    <p>性别： <input type="text" name="gender" value="{{cur_user.gender}}"/> </p>
-                    <p style="display: none">学号： <input type="text" name="student_id" value="{{cur_user.student_id}}"/> </p>
-                    <p>专业： <input type="text" name="major" value="{{cur_user.major}}"/> </p>
-                    <p>年龄： <input type="text" name="age" value="{{cur_user.age}}"/> </p>
-                    <p>余额： <input type="text" name="money" value="{{cur_user.money}}"/> </p>
-                    <p>手机： <input type="text" name="phone" value="{{cur_user.phone}}"/> </p>
-                    <p>人脸图片： <input type="file" name="img" value="{{cur_user.img}}"/> </p>
-                    <input type="submit" value="确定" />
-                </form>
+                </table>
+
+                <!--<p style="margin-top: 10px;"><a href="/" class="a-button">详细记录</a></p>-->
             </div>
 
         </div>
@@ -91,7 +102,6 @@
 
             </div>
         </div>
-
 
     </div>
 

@@ -38,6 +38,11 @@ def index():
     return render_template('index.html', data=_getdata())
 
 
+@app.route('/all_eating', methods=['GET', 'POST'])
+def all_eating():
+    return render_template('all_eating.html', data=_getdata())
+
+
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     # *******************  GET ******************#
@@ -57,6 +62,7 @@ def add_user():
             'major': request.form.get('major', ""),
             'age': request.form.get('age', "18"),
             'money': request.form.get('money', "0.00"),
+            'phone': request.form.get('phone', "00000000000"),
             'img': img.filename,
         }
 
@@ -118,40 +124,39 @@ def mod_user():
             'major': request.form.get('major', ""),
             'age': request.form.get('age', "18"),
             'money': request.form.get('money', "0.00"),
+            'phone': request.form.get('phone', "00000000000"),
             'img': img.filename,
         }
 
         for p in data['people']:
             if p['student_id'] == new_p['student_id']:
 
-                img.save('temp.jpg')
+                if new_p['img'] != '':
 
-                img_file = open('temp.jpg', 'rb')
+                    img.save('temp.jpg')
 
-                img_bin = img_file.read()
+                    img_file = open('temp.jpg', 'rb')
 
-                img_file.close()
+                    img_bin = img_file.read()
 
-                result = yuncongserverlib.face_edit(group, p['yuncong_id'], img_bin)
+                    img_file.close()
 
-                os.remove('temp.jpg')
+                    result = yuncongserverlib.face_edit(group, p['yuncong_id'], img_bin)
 
+                    os.remove('temp.jpg')
 
-                if result:
-
-                    p['name'] = new_p['name']
-                    p['gender'] = new_p['gender']
-                    p['major'] = new_p['major']
-                    p['age'] = new_p['age']
                     p['img'] = new_p['img']
 
-                    _setdata(data)
 
-                    flash('修改用户信息成功')
+                p['name'] = new_p['name']
+                p['gender'] = new_p['gender']
+                p['major'] = new_p['major']
+                p['age'] = new_p['age']
+                p['phone'] = new_p['phone']
 
-                else:
+                _setdata(data)
 
-                    flash('修改用户信息失败')
+                flash('修改用户信息成功')
 
         return redirect('/')
 
@@ -204,7 +209,7 @@ def add_food():
 
         data = _getdata()
 
-        data['food'].append(p)
+        data['food'].insert(0, p)
 
         _setdata(data)
 
@@ -337,15 +342,19 @@ def get_cost():
             name = p['name']
             money = p['money']
     cost_list = []
+    food_list = []
+    hall_list = []
     for i in data['eating']:
         if i['student_id'] == student_id:
             cost_list.append(i['cost'])
-        if len(cost_list) == 5:
+            food_list.append(i['food'])
+            hall_list.append(i['hall'])
+        if len(cost_list) == 10:
             break
 
-    s = '您好{}同学，你目前余额为{}元\n最近的五笔消费为：\n'.format(name, money)
+    s = '您好{}同学，你目前余额为{}元\n最近的十笔消费为：\n'.format(name, money)
     for i in range(len(cost_list)):
-        s += '[{}]: {}元\n'.format(i + 1, cost_list[i])
+        s += '[{}]: {}元 {} {}\n'.format(i + 1, cost_list[i], food_list[i], hall_list[i])
     return s
 
 

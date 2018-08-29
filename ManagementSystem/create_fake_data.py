@@ -9,13 +9,14 @@ group = 'cj'
 
 name_list = ['杨骏', '陈君', '周鸿宇', '孟海宁', '魏润宇', '顾一']
 id_list = ['201618001027062', '201628017729007', '201628017728027', '201718013229035', '201618001027061', '201618001027063']
+phone_list = ['15611102621', '18222333097',  '15835781246', '13758467912', '13054871389', '18235467192']
 gender_list = ['男', '男', '男', '女', '男', '女']
 major_list = ['电子信息工程', '计算机应用技术', '模式识别', '电子信息工程', '电子信息工程', '电子信息工程']
 age_list = ['23', '24', '23', '22', '23', '22', '23']
 
 food_list = ['小炒肉', '木须肉', '手撕包菜', '清焖莲子', '青葱牛柳', '苦瓜炒牛肉', '龙井虾仁', '鱼香肉丝', '凉拌黑木耳', '西红柿炒鸡蛋', '酸辣土豆丝', '红烧狮子头', '孜然羊肉']
-materials_list = ['猪肉', '牛肉', '羊肉', '素菜']
-vegetarian_list = ['素菜', '肉菜', '肉素混合']
+materials_list = ['猪肉', '牛肉', '包心菜', '莲子', '牛肉', '牛肉', '虾肉', '鱼肉', '黑木耳', '鸡蛋', '土豆', '猪肉', '羊肉']
+vegetarian_list = ['肉菜', '肉菜', '素菜', '素菜', '肉菜', '肉素混合', '肉素混合', '肉素混合', '素菜', '肉素混合', '素菜', '肉菜', '肉菜']
 taste_list = ['酸', '甜', '苦', '辣']
 money_list = [10, 12, 14, 16, 18, 20]
 food_money_list = random.choices(money_list, k=len(food_list))
@@ -48,7 +49,7 @@ def get_student_fav_food(i):
 
 def get_student_eating_food(i):
     fav = get_student_fav_food(i)
-    if random.random() < 0.9:
+    if random.random() < 0.6:
         return fav
     else:
         return random.randint(0, len(food_list)-1)
@@ -63,7 +64,7 @@ def get_student_fav_jiko(i):
 
 def get_student_eating_jiko(i):
     fav = get_student_fav_jiko(i)
-    if random.random() < 0.9:
+    if random.random() < 0.6:
         return fav
     else:
         return random.randint(0, len(jiko_list)-1)
@@ -92,6 +93,7 @@ for i in range(len(name_list)):
             'major': major_list[i],
             'age': age_list[i],
             'room': str(random.randint(0, 1000)),
+            'phone': phone_list[i],
             'img': id_list[i] + '.jpg',
             'money': str(fix_money(100 + random.random() * 1000))
         })
@@ -104,8 +106,8 @@ for i in range(len(food_list)):
             'name': food_list[i],
             'cost': food_money_list[i],
             'hall': food_hall_list[i],
-            'materials': random.choice(materials_list),
-            'vegetarian': random.choice(vegetarian_list),
+            'materials': materials_list[i],
+            'vegetarian': vegetarian_list[i],
             'taste': random.choice(taste_list),
             'times': random.randint(300, 700)
          }
