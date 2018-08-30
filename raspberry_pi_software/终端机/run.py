@@ -29,14 +29,14 @@ REQUEST_HEADERS = {
 
 
 
-def get_info_by_id(_id):
-    url = BASE_URL + '/get_info?id=' + str(_id)
+def get_info_by_yuncong_id(_id):
+    url = BASE_URL + '/get_info_by_yuncong_id?yuncong_id=' + str(_id)
     request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
 
-def get_book_info(_id):
+def get_number(_id):
     url = BASE_URL + '/get_number?student_id=' + str(_id)
     request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
     result = urllib.request.urlopen(request).read().decode('utf-8')
@@ -65,16 +65,64 @@ def click_label_yy2():
     img = open('img.jpg', 'rb').read()
     r = face_identify(group, img)
     if r[0] == True:
-        win.bg.setPixmap(win.yyqr)
-        nnn = get_info_by_id(str(r[1]))['name']
-        tts('您好'+nnn+'请取餐。')
-        playaudio()
-        QApplication.processEvents()
+        ycid = r[1]
+        info = get_info_by_yuncong_id(ycid)
+        name = info['name']
+        student_id = info['student_id']
+        book_r = get_number(student_id)
+        if book_r == {}:
+            win.result.show()
+            win.bg.setPixmap(win.p2)
+            win.result.setText('您没有预约信息！')
+            tts('您没有预约信息！')
+            playaudio()
+            QApplication.processEvents()
+            time.sleep(3)
+            win.bg.setPixmap(win.yybg)
+            win.lyy1.show()
+            win.lyy2.show()
+            win.result.hide()
 
-        time.sleep(3)
-        win.bg.setPixmap(win.yybg)
-        win.lyy1.show()
-        win.lyy2.show()
+        else:
+            win.bg.setPixmap(win.yyqr)
+            foodnum = book_r['number']
+
+
+
+
+
+            tts('您好'+name+'请于食品柜'+str(foodnum)+'号取餐。')
+            playaudio()
+            win.jk1.show()
+            win.jk2.show()
+            win.jk3.show()
+            win.jk4.show()
+            win.food.show()
+            win.jk1.setPixmap(win.x10)
+            win.jk2.setPixmap(win.x20)
+            win.jk3.setPixmap(win.x30)
+            win.jk4.setPixmap(win.x40)
+            if '免辣' in book_r['jiko']:
+                win.jk1.setPixmap(win.x11)
+            if '免葱' in book_r['jiko']:
+                win.jk2.setPixmap(win.x21)
+            if '免香菜' in book_r['jiko']:
+                win.jk3.setPixmap(win.x31)
+            if '免汁' in book_r['jiko']:
+                win.jk4.setPixmap(win.x41)
+
+            win.food.setText(book_r['food']+' 位于 '+str(foodnum)+'号食品柜')
+            QApplication.processEvents()
+
+            time.sleep(5)
+            win.jk1.hide()
+            win.jk2.hide()
+            win.jk3.hide()
+            win.jk4.hide()
+            win.food.hide()
+            win.bg.setPixmap(win.yybg)
+            win.lyy1.show()
+            win.lyy2.show()
     else:
         win.result.show()
         win.bg.setPixmap(win.p2)
@@ -117,7 +165,7 @@ def click_label_2():
     if r[0] == True:
         win.result.show()
         win.bg.setPixmap(win.p3)
-        nnn = get_info_by_id(str(r[1]))['name']
+        nnn = get_info_by_yuncong_id(str(r[1]))['name']
         win.result.setText('您好'+nnn+'，此次消费 14 元。')
         tts('您好'+nnn+'，此次消费 14 元。')
         playaudio()
