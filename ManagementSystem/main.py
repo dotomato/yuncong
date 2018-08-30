@@ -296,6 +296,33 @@ def add_book():
     return jsonify({'result': False})
 
 
+@app.route('/add_book_instant', methods=['GET'])
+def add_book_instant():
+    new_cost = {'time': _format_time(time.time()),
+                'student_id': request.args.get('student_id', ""),
+                'machine': request.args.get('machine', ""),
+                'food': request.args.get('food', ""),
+                # 'cost': request.args.get('cost', ""),
+                'hall': request.args.get('hall', ""),
+                'jiko': request.args.get('jiko', ""),
+                'uuid': _generate_uuid(),
+                'number': _generate_number_instant()
+                }
+
+
+    data = _getdata()
+
+    for p in data['food']:
+        if p['name'] == new_cost['food']:
+            new_cost['cost'] = p['cost']
+
+            data['book'].append(new_cost)
+            _setdata(data)
+            return jsonify({'result': True})
+
+    return jsonify({'result': False})
+
+
 # 删除book记录，并对学生的余额进行扣费
 @app.route('/finish_book', methods=['GET'])
 def finish_book():
@@ -305,6 +332,8 @@ def finish_book():
         if p['uuid'] == _uuid:
 
             data['eating'].insert(0, p)
+            if p['number'] >= 1000:
+                p['number'] = -p['number']
             cost = p['cost']
             student_id = p['student_id']
             for p1 in data['people']:
@@ -416,6 +445,9 @@ def _format_time(date):
 
 def _generate_number():
     return random.randint(100, 999)
+
+def _generate_number_instant():
+    return random.randint(1000, 9999)
 
 app.add_template_global(_format_time)
 
