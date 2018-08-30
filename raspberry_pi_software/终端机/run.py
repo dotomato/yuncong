@@ -27,12 +27,6 @@ REQUEST_HEADERS = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'
     }
 
-def getname(id):
-    url = BASE_URL + '/get_info_by_student_id?student_id=' + str(id)
-    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
-    result = urllib.request.urlopen(request).read().decode('utf-8')
-    payload = json.loads(result)
-    return payload['name']
 
 
 def get_info_by_id(_id):
@@ -41,6 +35,14 @@ def get_info_by_id(_id):
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
+
+def get_book_info(_id):
+    url = BASE_URL + '/get_number?student_id=' + str(_id)
+    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    return payload
+
 
 def click_label_yy1():
     win.l1.show()
