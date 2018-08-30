@@ -55,7 +55,7 @@ def get_book_list():
         win.jk4.setPixmap(win.x40)
     else:
         a = payload
-        a.reverse()
+        #a.reverse()
         if a[0]['number'] > 1000:
             win.food.setText(a[0]['food']+' 送至窗口 ')
         else:
