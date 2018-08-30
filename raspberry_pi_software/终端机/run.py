@@ -35,45 +35,47 @@ j4 = 0
 def click_j1():
     global j1
     if j1 == 0:
-        print('------------------>1')
 
         j1 = 1
         win.jk1.setPixmap(win.x11)
-    if j1 == 1:
-        print('------------------>0')
+    else:
 
         j1 = 0
         win.jk1.setPixmap(win.x10)
+    QApplication.processEvents()
 def click_j2():
     global j2
     if j2 == 0:
 
         j2 = 1
         win.jk2.setPixmap(win.x21)
-    if j2 == 1:
+    else:
 
         j2 = 0
         win.jk2.setPixmap(win.x20)
+    QApplication.processEvents()
 def click_j3():
     global j3
     if j3 == 0:
 
         j3 = 1
         win.jk3.setPixmap(win.x31)
-    if j3 == 1:
+    else:
 
         j3 = 0
         win.jk3.setPixmap(win.x30)
+    QApplication.processEvents()
 def click_j4():
     global j4
     if j4 == 0:
 
         j4 = 1
         win.jk4.setPixmap(win.x41)
-    if j4 == 1:
+    else:
 
         j4 = 0
         win.jk4.setPixmap(win.x40)
+    QApplication.processEvents()
 
 
 def get_info_by_yuncong_id(_id):
@@ -96,14 +98,24 @@ def get_recommend(_id):
     payload = json.loads(result)
     return payload
 def get_food(name):
-    url = BASE_URL + '/get_food?name=' + str(name)
-    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    url = BASE_URL + '/get_food'
+    x = {'name':name}
+    data = urllib.parse.urlencode(x)
+    request = urllib.request.Request(url+'?'+data)
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
 def add_book_instant(student_id,machine,food,hall,jiko):
-    url = BASE_URL + '/add_book_instant?student_id=' + str(student_id)+'&machine='+str(machine)+'&food='+str(food)+'&hall='+str(hall)+'&jiko='+str(jiko)
-    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    url = BASE_URL + '/add_book_instant'
+    x = {
+        'student_id':student_id,
+        'machine':machine,
+        'food':food,
+        'hall':hall,
+        'jiko':jiko
+        }
+    data = urllib.parse.urlencode(x)
+    request = urllib.request.Request(url+'?'+data)
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
@@ -410,9 +422,9 @@ def click_label_2():
     dc_cost = get_food(dc_food)['cost']
     print(dc_cost)
     if float(dc_money) >= int(dc_cost):
-        add_book_instant(dc_student_id,'25',dc_food,'西区一食堂',jjkk)
+        add_book_instant(str(dc_student_id),'25',dc_food,'西区一食堂',jjkk)
         win.result.setText('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
-        win.info.setText('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
+        win.info.setText('学号: %s\n姓名: %s\n此次购买: %s\n本次消费: %s\n账户余额: %s\n' % (str(dc_student_id),str(dc_name),str(dc_food),str(dc_cost),str(float(dc_money)-int(dc_cost))))
         QApplication.processEvents()
         tts('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
         playaudio()
