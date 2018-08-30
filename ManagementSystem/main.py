@@ -374,6 +374,16 @@ def get_food_list():
     return jsonify(data['food'])
 
 
+@app.route('/get_food', methods=['GET'])
+def get_food():
+    name = request.args.get('name', "")
+    data = _getdata()
+    for p in data['food']:
+        if p['name'] == name:
+            return jsonify(p)
+    return jsonify({})
+
+
 @app.route('/get_cost', methods=['GET'])
 def get_cost():
     student_id = request.args.get('student_id', "")
