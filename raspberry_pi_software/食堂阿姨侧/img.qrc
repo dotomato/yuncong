@@ -1,0 +1,16 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource>
+
+<file alias="p1.png">p1.png</file>
+<file alias="b1.png">b1.png</file>
+<file alias="x10.png">x10.png</file>
+<file alias="x11.png">x11.png</file>
+<file alias="x20.png">x20.png</file>
+<file alias="x21.png">x21.png</file>
+<file alias="x30.png">x30.png</file>
+<file alias="x31.png">x31.png</file>
+<file alias="x40.png">x40.png</file>
+<file alias="x41.png">x41.png</file>
+</qresource>
+</RCC>
