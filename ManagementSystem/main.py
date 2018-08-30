@@ -209,7 +209,7 @@ def add_food():
 
         data = _getdata()
 
-        data['food'].insert(0, p)
+        data['food'].append(p)
 
         _setdata(data)
 
@@ -303,7 +303,7 @@ def finish_book():
     for p in data['book']:
         if p['uuid'] == _uuid:
 
-            data['eating'].append(p)
+            data['eating'].insert(0, p)
             cost = p['cost']
             student_id = p['student_id']
             for p1 in data['people']:
