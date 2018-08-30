@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'progui.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.2
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -26,7 +26,7 @@ class Ui_Dialog(object):
         self.bg.setText("")
         self.bg.setObjectName("bg")
         self.exit = QtWidgets.QLabel(Dialog)
-        self.exit.setGeometry(QtCore.QRect(580, 0, 221, 51))
+        self.exit.setGeometry(QtCore.QRect(710, 0, 91, 51))
         self.exit.setText("")
         self.exit.setObjectName("exit")
         self.l1 = QtWidgets.QLabel(Dialog)

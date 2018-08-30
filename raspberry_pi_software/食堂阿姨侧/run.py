@@ -56,7 +56,10 @@ def get_book_list():
     else:
         a = payload
         a.reverse()
-        win.food.setText(a[0]['food'])
+        if a[0]['number'] > 1000:
+            win.food.setText(a[0]['food']+' 送至窗口 ')
+        else:
+            win.food.setText(a[0]['food']+' 送至 '+str(a[0]['number'])+' 号取餐柜')
         global uuid
         uuid = a[0]['uuid']
         win.jk1.setPixmap(win.x10)
@@ -119,6 +122,7 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.x40 = QPixmap(":x40.png")
         self.x41 = QPixmap(":x41.png")
         self.ck = QPixmap(":ck.png")
+        self.quit = QPixmap(":quit.png")
         self.resize(self.p1.size())
         self.setMask(self.p1.mask())
         screen = QDesktopWidget().screenGeometry()
@@ -127,6 +131,8 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.bg.setPixmap(self.p1)
         self.l1.setPixmap(self.b1)
         self.foodbg.setPixmap(self.ck)
+
+        self.exit.setPixmap(self.quit)
 
         self.l1.mousePressEvent = self.click_l1
 
