@@ -85,6 +85,18 @@ def get_recommend(_id):
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
+def get_food(name):
+    url = BASE_URL + '/get_food?name=' + str(name)
+    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    return payload
+def add_book_instant(student_id,machine,food,hall,jiko):
+    url = BASE_URL + '/add_book_instant?student_id=' + str(student_id)+'&machine='+str(machine)+'&food='+str(food)+'&hall='+str(hall)+'&jiko='+str(jiko)
+    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    return payload
 dc_food = ""
 dc_name = ""
 dc_student_id = ""
@@ -366,14 +378,27 @@ def click_label_2():
     global dc_food
     global dc_money
     global dc_cost
-
-
-
-    if dc_money >= dc_cost:
-        win.result.setText('您好'+dc_name+'，此次消费 14 元。')
-        win.info.setText('您好'+dc_name+'，此次消费 14 元。')
+    global dc_student_id
+    jjkk = ""
+    global j1
+    global j2
+    global j3
+    global j4
+    if j1 == 1:
+        jjkk = jjkk + '免辣'
+    if j1 == 2:
+        jjkk = jjkk + '免葱'
+    if j1 == 3:
+        jjkk = jjkk + '免香菜'
+    if j1 == 4:
+        jjkk = jjkk + '免汁'
+    dc_cost = get_food(dc_food)['cost']
+    if float(dc_money) >= int(dc_cost):
+        add_book_instant(dc_student_id,'25',dc_food,'西区一食堂',jjkk)
+        win.result.setText('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
+        win.info.setText('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
         QApplication.processEvents()
-        tts('您好'+dc_name+'，此次消费 14 元。')
+        tts('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
         playaudio()
     else:
         win.result.setText('余额不足，请重试！')
@@ -386,8 +411,9 @@ def click_label_2():
     win.bg.setPixmap(win.yybg)
     win.lyy1.show()
     win.lyy2.show()
+    win.info.setText('')
     win.result.hide()
-    win.result.info()
+    win.info.hide()
 
 
 class Main_Ui(QWidget,Ui_Dialog):
