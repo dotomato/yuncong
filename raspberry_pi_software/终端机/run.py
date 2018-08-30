@@ -122,7 +122,7 @@ def click_label_yy1():
         dc_name = info['name']
         dc_student_id = str(info['student_id'])
         dc_money = info['money']
-        book_r = get_number(student_id)
+        book_r = get_number(dc_student_id)
         win.bg.setPixmap(win.p1)
         win.l1.show()
         win.l2.show()
@@ -441,6 +441,7 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.x40 = QPixmap(":x40.png")
         self.x41 = QPixmap(":x41.png")
         self.ck = QPixmap(":ck.png")
+        self.quit = QPixmap(":quit.png")
         self.resize(self.p1.size())
         self.setMask(self.p1.mask())
         screen = QDesktopWidget().screenGeometry()
@@ -455,6 +456,7 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.l3.setPixmap(self.b3)
         self.l4.setPixmap(self.b1)
         self.l5.setPixmap(self.b5)
+        self.exit.setPixmap(self.quit)
         self.lyy1.setPixmap(self.yyb1)
         self.lyy2.setPixmap(self.yyb2)
         self.l5.hide()
@@ -476,17 +478,34 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.l3.mousePressEvent = self.click_food_3
         self.l4.mousePressEvent = self.click_food_4
         self.l5.mousePressEvent = self.click_label_2
+        self.jk1.mousePressEvent = self.click_j1
+        self.jk2.mousePressEvent = self.click_j2
+        self.jk3.mousePressEvent = self.click_j3
+        self.jk4.mousePressEvent = self.click_j4
     def click_label_yy1(self,gg):
         click_label_yy1()
     def click_label_yy2(self,gg):
         click_label_yy2()
     def click_food_1(self,gg):
         click_food_1()
+    def click_food_2(self,gg):
+        click_food_2()
+    def click_food_3(self,gg):
+        click_food_3()
+    def click_food_4(self,gg):
+        click_food_4()
     def click_label_2(self,gg):
         click_label_2()
     def click_exit(self,gg):
         qApp.quit()
-
+    def click_j1(self,gg):
+        click_j1()
+    def click_j2(self,gg):
+        click_j2()
+    def click_j3(self,gg):
+        click_j3()
+    def click_j4(self,gg):
+        click_j4()
 
 
 
