@@ -35,35 +35,47 @@ j4 = 0
 def click_j1():
     global j1
     if j1 == 0:
+
         j1 = 1
         win.jk1.setPixmap(win.x11)
-    if j1 == 1:
+    else:
+
         j1 = 0
         win.jk1.setPixmap(win.x10)
+    QApplication.processEvents()
 def click_j2():
     global j2
     if j2 == 0:
+
         j2 = 1
         win.jk2.setPixmap(win.x21)
-    if j2 == 1:
+    else:
+
         j2 = 0
         win.jk2.setPixmap(win.x20)
+    QApplication.processEvents()
 def click_j3():
     global j3
     if j3 == 0:
+
         j3 = 1
         win.jk3.setPixmap(win.x31)
-    if j3 == 1:
+    else:
+
         j3 = 0
         win.jk3.setPixmap(win.x30)
+    QApplication.processEvents()
 def click_j4():
     global j4
     if j4 == 0:
+
         j4 = 1
         win.jk4.setPixmap(win.x41)
-    if j4 == 1:
+    else:
+
         j4 = 0
         win.jk4.setPixmap(win.x40)
+    QApplication.processEvents()
 
 
 def get_info_by_yuncong_id(_id):
@@ -82,6 +94,28 @@ def get_number(_id):
 def get_recommend(_id):
     url = BASE_URL + '/get_recommend?student_id=' + str(_id)
     request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    return payload
+def get_food(name):
+    url = BASE_URL + '/get_food'
+    x = {'name':name}
+    data = urllib.parse.urlencode(x)
+    request = urllib.request.Request(url+'?'+data)
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    return payload
+def add_book_instant(student_id,machine,food,hall,jiko):
+    url = BASE_URL + '/add_book_instant'
+    x = {
+        'student_id':student_id,
+        'machine':machine,
+        'food':food,
+        'hall':hall,
+        'jiko':jiko
+        }
+    data = urllib.parse.urlencode(x)
+    request = urllib.request.Request(url+'?'+data)
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
@@ -110,7 +144,7 @@ def click_label_yy1():
         dc_name = info['name']
         dc_student_id = str(info['student_id'])
         dc_money = info['money']
-        book_r = get_number(student_id)
+        book_r = get_number(dc_student_id)
         win.bg.setPixmap(win.p1)
         win.l1.show()
         win.l2.show()
@@ -366,14 +400,33 @@ def click_label_2():
     global dc_food
     global dc_money
     global dc_cost
-
-
-
-    if dc_money >= dc_cost:
-        win.result.setText('您好'+dc_name+'，此次消费 14 元。')
-        win.info.setText('您好'+dc_name+'，此次消费 14 元。')
+    global dc_student_id
+    jjkk = ""
+    global j1
+    global j2
+    global j3
+    global j4
+    if j1 == 1:
+        jjkk = jjkk + '免辣'
+    if j2 == 1:
+        jjkk = jjkk + '免葱'
+    if j3 == 1:
+        jjkk = jjkk + '免香菜'
+    if j4 == 1:
+        jjkk = jjkk + '免汁'
+    print(dc_food)
+    print(jjkk)
+    print(dc_name)
+    print(dc_student_id)
+    print(dc_money)
+    dc_cost = get_food(dc_food)['cost']
+    print(dc_cost)
+    if float(dc_money) >= int(dc_cost):
+        add_book_instant(str(dc_student_id),'25',dc_food,'西区一食堂',jjkk)
+        win.result.setText('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
+        win.info.setText('学号: %s\n姓名: %s\n此次购买: %s\n本次消费: %s\n账户余额: %s\n' % (str(dc_student_id),str(dc_name),str(dc_food),str(dc_cost),str(float(dc_money)-int(dc_cost))))
         QApplication.processEvents()
-        tts('您好'+dc_name+'，此次消费 14 元。')
+        tts('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
         playaudio()
     else:
         win.result.setText('余额不足，请重试！')
@@ -386,8 +439,9 @@ def click_label_2():
     win.bg.setPixmap(win.yybg)
     win.lyy1.show()
     win.lyy2.show()
+    win.info.setText('')
     win.result.hide()
-    win.result.info()
+    win.info.hide()
 
 
 class Main_Ui(QWidget,Ui_Dialog):
@@ -415,6 +469,7 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.x40 = QPixmap(":x40.png")
         self.x41 = QPixmap(":x41.png")
         self.ck = QPixmap(":ck.png")
+        self.quit = QPixmap(":quit.png")
         self.resize(self.p1.size())
         self.setMask(self.p1.mask())
         screen = QDesktopWidget().screenGeometry()
@@ -429,6 +484,7 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.l3.setPixmap(self.b3)
         self.l4.setPixmap(self.b1)
         self.l5.setPixmap(self.b5)
+        self.exit.setPixmap(self.quit)
         self.lyy1.setPixmap(self.yyb1)
         self.lyy2.setPixmap(self.yyb2)
         self.l5.hide()
@@ -450,17 +506,34 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.l3.mousePressEvent = self.click_food_3
         self.l4.mousePressEvent = self.click_food_4
         self.l5.mousePressEvent = self.click_label_2
+        self.jk1.mousePressEvent = self.click_j1
+        self.jk2.mousePressEvent = self.click_j2
+        self.jk3.mousePressEvent = self.click_j3
+        self.jk4.mousePressEvent = self.click_j4
     def click_label_yy1(self,gg):
         click_label_yy1()
     def click_label_yy2(self,gg):
         click_label_yy2()
     def click_food_1(self,gg):
         click_food_1()
+    def click_food_2(self,gg):
+        click_food_2()
+    def click_food_3(self,gg):
+        click_food_3()
+    def click_food_4(self,gg):
+        click_food_4()
     def click_label_2(self,gg):
         click_label_2()
     def click_exit(self,gg):
         qApp.quit()
-
+    def click_j1(self,gg):
+        click_j1()
+    def click_j2(self,gg):
+        click_j2()
+    def click_j3(self,gg):
+        click_j3()
+    def click_j4(self,gg):
+        click_j4()
 
 
 
