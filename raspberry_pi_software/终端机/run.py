@@ -27,6 +27,43 @@ REQUEST_HEADERS = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'
     }
 
+j1 = 0
+j2 = 0
+j3 = 0
+j4 = 0
+
+def click_j1():
+    global j1
+    if j1 == 0:
+        j1 = 1
+        win.jk1.setPixmap(win.x11)
+    if j1 == 1:
+        j1 = 0
+        win.jk1.setPixmap(win.x10)
+def click_j2():
+    global j2
+    if j2 == 0:
+        j2 = 1
+        win.jk2.setPixmap(win.x21)
+    if j2 == 1:
+        j2 = 0
+        win.jk2.setPixmap(win.x20)
+def click_j3():
+    global j3
+    if j3 == 0:
+        j3 = 1
+        win.jk3.setPixmap(win.x31)
+    if j3 == 1:
+        j3 = 0
+        win.jk3.setPixmap(win.x30)
+def click_j4():
+    global j4
+    if j4 == 0:
+        j4 = 1
+        win.jk4.setPixmap(win.x41)
+    if j4 == 1:
+        j4 = 0
+        win.jk4.setPixmap(win.x40)
 
 
 def get_info_by_yuncong_id(_id):
@@ -42,17 +79,64 @@ def get_number(_id):
     result = urllib.request.urlopen(request).read().decode('utf-8')
     payload = json.loads(result)
     return payload
-
+def get_recommend(_id):
+    url = BASE_URL + '/get_recommend?student_id=' + str(_id)
+    request = urllib.request.Request(url, headers=REQUEST_HEADERS, method='GET')
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    return payload
+dc_food = ""
+dc_name = ""
+dc_student_id = ""
+dc_money = 0
+dc_cost = 0
+dc_tj = ""
 
 def click_label_yy1():
-    win.l1.show()
-    win.l2.show()
-    win.l3.show()
-    win.l4.show()
     win.lyy1.hide()
     win.lyy2.hide()
-    win.bg.setPixmap(win.p1)
+    win.bg.setPixmap(win.p2)
     QApplication.processEvents()
+    win.camera.capture('img.jpg')
+    group = 'cj'
+    img = open('img.jpg', 'rb').read()
+    r = face_identify(group, img)
+    if r[0] == True:
+        ycid = r[1]
+        info = get_info_by_yuncong_id(ycid)
+        global dc_name
+        global dc_student_id
+        global dc_money
+        dc_name = info['name']
+        dc_student_id = str(info['student_id'])
+        dc_money = info['money']
+        book_r = get_number(student_id)
+        win.bg.setPixmap(win.p1)
+        win.l1.show()
+        win.l2.show()
+        win.l3.show()
+        win.l4.show()
+        win.l1.setPixmap(win.b1)
+        win.l2.setPixmap(win.b2)
+        win.l3.setPixmap(win.b3)
+        global dc_tj
+        dc_tj = get_recommend(dc_student_id)['name']
+        win.l4.setText('为您独家推荐: '+dc_tj)
+        QApplication.processEvents()
+        tts('您好'+dc_name+'，请点餐！')
+        playaudio()
+    else:
+        win.result.show()
+        win.bg.setPixmap(win.p2)
+        win.result.setText('识别失败 请重试')
+        tts('识别失败 请重试')
+        playaudio()
+        QApplication.processEvents()
+        time.sleep(3)
+        win.bg.setPixmap(win.yybg)
+        win.lyy1.show()
+        win.lyy2.show()
+        win.result.hide()
 
 
 def click_label_yy2():
@@ -144,50 +228,167 @@ def click_label_yy2():
 
 
 
-def click_label_1():
+def click_food_1():
     win.l1.hide()
     win.l2.hide()
     win.l3.hide()
     win.l4.hide()
     win.l5.show()
+    win.food.show()
+    win.food.setPixmap(win.b1)
+    global dc_food
+    dc_food = "木须肉"
     win.bg.setPixmap(win.jk)
+    win.jk1.show()
+    win.jk1.setPixmap(win.x10)
+    global j1
+    j1 = 0
+    win.jk2.show()
+    win.jk2.setPixmap(win.x20)
+    global j2
+    j2 = 0
+    win.jk3.show()
+    win.jk3.setPixmap(win.x30)
+    global j3
+    j3 = 0
+    win.jk4.show()
+    win.jk4.setPixmap(win.x40)
+    global j4
+    j4 = 0
     QApplication.processEvents()
+
+
+def click_food_2():
+    win.l1.hide()
+    win.l2.hide()
+    win.l3.hide()
+    win.l4.hide()
+    win.l5.show()
+    win.food.show()
+    win.food.setPixmap(win.b2)
+    global dc_food
+    dc_food = "小炒肉"
+    win.bg.setPixmap(win.jk)
+    win.jk1.show()
+    win.jk1.setPixmap(win.x10)
+    global j1
+    j1 = 0
+    win.jk2.show()
+    win.jk2.setPixmap(win.x20)
+    global j2
+    j2 = 0
+    win.jk3.show()
+    win.jk3.setPixmap(win.x30)
+    global j3
+    j3 = 0
+    win.jk4.show()
+    win.jk4.setPixmap(win.x40)
+    global j4
+    j4 = 0
+    QApplication.processEvents()
+
+def click_food_3():
+    win.l1.hide()
+    win.l2.hide()
+    win.l3.hide()
+    win.l4.hide()
+    win.l5.show()
+    win.food.show()
+    win.food.setPixmap(win.b3)
+    global dc_food
+    dc_food = "手撕包菜"
+    win.bg.setPixmap(win.jk)
+    win.jk1.show()
+    win.jk1.setPixmap(win.x10)
+    global j1
+    j1 = 0
+    win.jk2.show()
+    win.jk2.setPixmap(win.x20)
+    global j2
+    j2 = 0
+    win.jk3.show()
+    win.jk3.setPixmap(win.x30)
+    global j3
+    j3 = 0
+    win.jk4.show()
+    win.jk4.setPixmap(win.x40)
+    global j4
+    j4 = 0
+    QApplication.processEvents()
+
+
+def click_food_4():
+    win.l1.hide()
+    win.l2.hide()
+    win.l3.hide()
+    win.l4.hide()
+    win.l5.show()
+    win.food.show()
+    win.food.setText(dc_tj)
+    global dc_food
+    dc_food = dc_tj
+    win.bg.setPixmap(win.jk)
+    win.jk1.show()
+    win.jk1.setPixmap(win.x10)
+    global j1
+    j1 = 0
+    win.jk2.show()
+    win.jk2.setPixmap(win.x20)
+    global j2
+    j2 = 0
+    win.jk3.show()
+    win.jk3.setPixmap(win.x30)
+    global j3
+    j3 = 0
+    win.jk4.show()
+    win.jk4.setPixmap(win.x40)
+    global j4
+    j4 = 0
+    QApplication.processEvents()
+
+
+
+
 
 
 def click_label_2():
     win.l5.hide()
-    win.bg.setPixmap(win.p2)
+    win.food.hide()
+    win.jk1.hide()
+    win.jk2.hide()
+    win.jk3.hide()
+    win.jk4.hide()
+    win.bg.setPixmap(win.p3)
+    win.result.show()
+    win.info.show()
     QApplication.processEvents()
-    win.camera.capture('img.jpg')
-    group = 'cj'
-    img = open('img.jpg', 'rb').read()
-    r = face_identify(group, img)
-    if r[0] == True:
-        win.result.show()
-        win.bg.setPixmap(win.p3)
-        nnn = get_info_by_yuncong_id(str(r[1]))['name']
-        win.result.setText('您好'+nnn+'，此次消费 14 元。')
-        tts('您好'+nnn+'，此次消费 14 元。')
-        playaudio()
-        QApplication.processEvents()
+    global dc_name
+    global dc_food
+    global dc_money
+    global dc_cost
 
-        time.sleep(3)
-        win.bg.setPixmap(win.yybg)
-        win.lyy1.show()
-        win.lyy2.show()
-        win.result.hide()
-    else:
-        win.result.show()
-        win.bg.setPixmap(win.p2)
-        win.result.setText('识别失败 请重试')
-        tts('识别失败 请重试')
-        playaudio()
+
+
+    if dc_money >= dc_cost:
+        win.result.setText('您好'+dc_name+'，此次消费 14 元。')
+        win.info.setText('您好'+dc_name+'，此次消费 14 元。')
         QApplication.processEvents()
-        time.sleep(3)
-        win.bg.setPixmap(win.yybg)
-        win.lyy1.show()
-        win.lyy2.show()
-        win.result.hide()
+        tts('您好'+dc_name+'，此次消费 14 元。')
+        playaudio()
+    else:
+        win.result.setText('余额不足，请重试！')
+        win.info.setText('')
+        QApplication.processEvents()
+        tts('余额不足，请重试！')
+        playaudio()
+
+    time.sleep(5)
+    win.bg.setPixmap(win.yybg)
+    win.lyy1.show()
+    win.lyy2.show()
+    win.result.hide()
+    win.result.info()
+
 
 class Main_Ui(QWidget,Ui_Dialog):
     def __init__(self,parent=None):
@@ -244,17 +445,17 @@ class Main_Ui(QWidget,Ui_Dialog):
         self.exit.mousePressEvent = self.click_exit
         self.lyy1.mousePressEvent = self.click_label_yy1
         self.lyy2.mousePressEvent = self.click_label_yy2
-        self.l1.mousePressEvent = self.click_label_1
-        self.l2.mousePressEvent = self.click_label_1
-        self.l3.mousePressEvent = self.click_label_1
-        self.l4.mousePressEvent = self.click_label_1
+        self.l1.mousePressEvent = self.click_food_1
+        self.l2.mousePressEvent = self.click_food_2
+        self.l3.mousePressEvent = self.click_food_3
+        self.l4.mousePressEvent = self.click_food_4
         self.l5.mousePressEvent = self.click_label_2
     def click_label_yy1(self,gg):
         click_label_yy1()
     def click_label_yy2(self,gg):
         click_label_yy2()
-    def click_label_1(self,gg):
-        click_label_1()
+    def click_food_1(self,gg):
+        click_food_1()
     def click_label_2(self,gg):
         click_label_2()
     def click_exit(self,gg):
