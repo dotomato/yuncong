@@ -17,9 +17,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = str(uuid.uuid4())
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1 * 24 * 60 * 60
 
-
 # *******************  YunCong Configuration ******************#
 group = 'cj'
+
 
 # *******************  View ******************#
 
@@ -98,7 +98,6 @@ def add_user():
         return redirect('/')
 
 
-
 @app.route('/mod_user', methods=['GET', 'POST'])
 def mod_user():
     student_id = request.args.get('student_id', "")
@@ -132,7 +131,6 @@ def mod_user():
             if p['student_id'] == new_p['student_id']:
 
                 if new_p['img'] != '':
-
                     img.save('temp.jpg')
 
                     img_file = open('temp.jpg', 'rb')
@@ -146,7 +144,6 @@ def mod_user():
                     os.remove('temp.jpg')
 
                     p['img'] = new_p['img']
-
 
                 p['name'] = new_p['name']
                 p['gender'] = new_p['gender']
@@ -239,10 +236,10 @@ def delete_food():
 
 @app.route('/start_train', methods=['GET'])
 def start_train():
-
     flash('训练模型成功')
 
     return redirect('/')
+
 
 # *******************  API ******************#
 
@@ -282,7 +279,6 @@ def add_book():
                 'number': _generate_number()
                 }
 
-
     data = _getdata()
 
     for p in data['food']:
@@ -290,6 +286,15 @@ def add_book():
             new_cost['cost'] = p['cost']
 
             data['book'].append(new_cost)
+            data['eating'].insert(0, new_cost)
+
+            cost = new_cost['cost']
+            student_id = new_cost['student_id']
+            for p1 in data['people']:
+                if p1['student_id'] == student_id:
+                    p1['money'] = '%0.2f' % (float(p1['money']) - float(cost))
+                    break
+
             _setdata(data)
             return jsonify({'result': True})
 
@@ -309,7 +314,6 @@ def add_book_instant():
                 'number': _generate_number_instant()
                 }
 
-
     data = _getdata()
 
     for p in data['food']:
@@ -317,6 +321,15 @@ def add_book_instant():
             new_cost['cost'] = p['cost']
 
             data['book'].append(new_cost)
+            data['eating'].insert(0, new_cost)
+
+            cost = new_cost['cost']
+            student_id = new_cost['student_id']
+            for p1 in data['people']:
+                if p1['student_id'] == student_id:
+                    p1['money'] = '%0.2f' % (float(p1['money']) - float(cost))
+                    break
+
             _setdata(data)
             return jsonify({'result': True})
 
@@ -330,17 +343,6 @@ def finish_book():
     data = _getdata()
     for p in data['book']:
         if p['uuid'] == _uuid:
-
-            data['eating'].insert(0, p)
-            if p['number'] >= 1000:
-                p['number'] = -p['number']
-            cost = p['cost']
-            student_id = p['student_id']
-            for p1 in data['people']:
-                if p1['student_id'] == student_id:
-                    p1['money'] = '%0.2f' % (float(p1['money']) - float(cost))
-                    break
-
             data['book'].remove(p)
             _setdata(data)
             return jsonify({'result': True})
@@ -360,7 +362,7 @@ def get_number():
 
     data = _getdata()
     for p in data['eating']:
-        if p['student_id'] == student_id and p['number'] > 0:
+        if p['student_id'] == student_id and 0 < p['number'] < 1000:
             payload = jsonify(p)
             p['number'] = -p['number']
             _setdata(data)
@@ -422,7 +424,6 @@ def get_recommend():
     return jsonify(food)
 
 
-
 @app.route('/kv_add', methods=['POST'])
 def kv_add():
     payload = request.get_data()
@@ -453,11 +454,14 @@ def _generate_uuid():
 def _format_time(date):
     return time.strftime("%Y/%m/%d %H:%M:%S", time.localtime(date))
 
+
 def _generate_number():
     return random.randint(100, 999)
 
+
 def _generate_number_instant():
     return random.randint(1000, 9999)
+
 
 app.add_template_global(_format_time)
 
