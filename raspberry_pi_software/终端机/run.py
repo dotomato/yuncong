@@ -35,33 +35,43 @@ j4 = 0
 def click_j1():
     global j1
     if j1 == 0:
+        print('------------------>1')
+
         j1 = 1
         win.jk1.setPixmap(win.x11)
     if j1 == 1:
+        print('------------------>0')
+
         j1 = 0
         win.jk1.setPixmap(win.x10)
 def click_j2():
     global j2
     if j2 == 0:
+
         j2 = 1
         win.jk2.setPixmap(win.x21)
     if j2 == 1:
+
         j2 = 0
         win.jk2.setPixmap(win.x20)
 def click_j3():
     global j3
     if j3 == 0:
+
         j3 = 1
         win.jk3.setPixmap(win.x31)
     if j3 == 1:
+
         j3 = 0
         win.jk3.setPixmap(win.x30)
 def click_j4():
     global j4
     if j4 == 0:
+
         j4 = 1
         win.jk4.setPixmap(win.x41)
     if j4 == 1:
+
         j4 = 0
         win.jk4.setPixmap(win.x40)
 
@@ -386,13 +396,19 @@ def click_label_2():
     global j4
     if j1 == 1:
         jjkk = jjkk + '免辣'
-    if j1 == 2:
+    if j2 == 1:
         jjkk = jjkk + '免葱'
-    if j1 == 3:
+    if j3 == 1:
         jjkk = jjkk + '免香菜'
-    if j1 == 4:
+    if j4 == 1:
         jjkk = jjkk + '免汁'
+    print(dc_food)
+    print(jjkk)
+    print(dc_name)
+    print(dc_student_id)
+    print(dc_money)
     dc_cost = get_food(dc_food)['cost']
+    print(dc_cost)
     if float(dc_money) >= int(dc_cost):
         add_book_instant(dc_student_id,'25',dc_food,'西区一食堂',jjkk)
         win.result.setText('您好'+dc_name+'，此次消费 '+str(dc_cost)+' 元。')
