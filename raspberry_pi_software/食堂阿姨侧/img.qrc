@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
 <qresource>
-
+<file alias="quit.png">quit.png</file>
 <file alias="p1.png">p1.png</file>
 <file alias="b1.png">b1.png</file>
 <file alias="x10.png">x10.png</file>
