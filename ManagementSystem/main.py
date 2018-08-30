@@ -278,7 +278,8 @@ def add_book():
                 # 'cost': request.args.get('cost', ""),
                 'hall': request.args.get('hall', ""),
                 'jiko': request.args.get('jiko', ""),
-                'uuid': _generate_uuid()
+                'uuid': _generate_uuid(),
+                'number': _generate_number()
                 }
 
 
@@ -322,6 +323,20 @@ def finish_book():
 def get_book_list():
     data = _getdata()
     return jsonify(data['book'])
+
+
+@app.route('/get_number', methods=['GET'])
+def get_number():
+    student_id = request.args.get('student_id', "")
+
+    data = _getdata()
+    for p in data['eating']:
+        if p['student_id'] == student_id and p['number'] > 0:
+            payload = jsonify(p)
+            p['number'] = -p['number']
+            _setdata(data)
+            return payload
+    return jsonify({})
 
 
 @app.route('/get_food_list', methods=['GET'])
@@ -399,6 +414,8 @@ def _generate_uuid():
 def _format_time(date):
     return time.strftime("%Y/%m/%d %H:%M:%S", time.localtime(date))
 
+def _generate_number():
+    return random.randint(100, 999)
 
 app.add_template_global(_format_time)
 
