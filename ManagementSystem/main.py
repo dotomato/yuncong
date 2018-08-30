@@ -332,11 +332,11 @@ def get_number():
     data = _getdata()
     for p in data['eating']:
         if p['student_id'] == student_id and p['number'] > 0:
-            number = p['number']
-            p['number'] = -number
+            payload = jsonify(p)
+            p['number'] = -p['number']
             _setdata(data)
-            return jsonify({'result': True, 'number': number})
-    return jsonify({'result': False, 'number': -1})
+            return payload
+    return jsonify({})
 
 
 @app.route('/get_food_list', methods=['GET'])
