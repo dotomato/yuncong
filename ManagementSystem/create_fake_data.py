@@ -125,7 +125,9 @@ for i in range(100):
          'food': food_list[x1],
          'cost': food_money_list[x1],
          'hall': food_hall_list[x1],
-         'jiko': jiko_list[x2]})
+         'jiko': jiko_list[x2],
+         'number': -1
+         })
 
 
 for key in ['eating']:
