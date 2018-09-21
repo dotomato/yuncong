@@ -28,7 +28,7 @@
     }
 
     $(document).ready(function(){
-        setTimeout("Alert_close()",1000)
+        setTimeout("Alert_close()",3000)
     })
 
     function Alert_close()
@@ -69,15 +69,14 @@
             <div class="col-xs-12">
                 <h2>新增用户信息</h2>
 
-                <form action="add_user" enctype="multipart/form-data" method="post">
+                <form action="add_user_2" enctype="multipart/form-data" method="post">
                     <p>姓名： <input type="text" name="name"/> </p>
-                    <p>性别： <input type="text" name="gender"/> </p>
+                    <p>性别： <input type="text" name="gender" value="{{gender}}"/> </p>
                     <p>学号： <input type="text" name="student_id"/> </p>
                     <p>专业： <input type="text" name="major"/> </p>
-                    <p>年龄： <input type="text" name="age"/> </p>
+                    <p>年龄： <input type="text" name="age" value="{{age}}"/> </p>
                     <p>余额： <input type="text" name="money"/> </p>
                     <p>手机： <input type="text" name="phone"/> </p>
-                    <p>人脸图片： <input type="file" name="img"/> </p>
                     <input type="submit" value="确定" />
                 </form>
             </div>

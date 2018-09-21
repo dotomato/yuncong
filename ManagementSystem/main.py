@@ -43,17 +43,56 @@ def all_eating():
     return render_template('all_eating.html', data=_getdata())
 
 
-@app.route('/add_user', methods=['GET', 'POST'])
-def add_user():
+@app.route('/add_user_0', methods=['GET'])
+def add_user_0():
     # *******************  GET ******************#
     if request.method == 'GET':
-        return render_template('add_user.html')
+        return render_template('add_user_0.html')
 
+
+@app.route('/add_user_1', methods=['POST'])
+def add_user_1():
     # *******************  POST ******************#
 
     if request.method == 'POST':
 
         img = request.files['img']
+
+        img.save('temp.jpg')
+
+        img_file = open('temp.jpg', 'rb')
+
+        img_bin = img_file.read()
+
+        img_file.close()
+
+        result = yuncongserverlib.face_attribute(img_bin)
+
+        if result[0]:
+
+            age = result[1]
+            gender = result[2]
+
+            if gender == '-1':
+                gender = '女'
+            else:
+                gender = '男'
+
+            flash('人脸属性提取成功')
+
+            return render_template('add_user_1.html', age=age, gender=gender)
+
+        else:
+
+            flash('人脸属性提取失败')
+
+            return render_template('add_user_1.html', age='', gender='')
+
+@app.route('/add_user_2', methods=['POST'])
+def add_user_2():
+
+    # *******************  POST ******************#
+    if request.method == 'POST':
 
         p = {
             'name': request.form.get('name', ""),
@@ -63,10 +102,7 @@ def add_user():
             'age': request.form.get('age', "18"),
             'money': request.form.get('money', "0.00"),
             'phone': request.form.get('phone', "00000000000"),
-            'img': img.filename,
         }
-
-        img.save('temp.jpg')
 
         img_file = open('temp.jpg', 'rb')
 

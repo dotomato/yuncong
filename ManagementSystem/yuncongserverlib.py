@@ -6,8 +6,6 @@ import json
 import base64
 import time
 import os
-from PIL import Image, ImageDraw, ImageFont
-from aip import AipSpeech
 import myserverlib
 
 BASE_URL = 'http://120.25.161.56:8000'
@@ -74,6 +72,19 @@ def face_edit(groupId, faceId, img_bin):
     else:
         return False
 
+def face_attribute(img_bin):
+    url = BASE_URL + '/face/tool/attribute'
+    values = {
+        'img': base64.b64encode(img_bin)
+    }
+    data = urllib.parse.urlencode(values).encode('utf-8')
+    request = urllib.request.Request(url, data, REQUEST_HEADERS)
+    result = urllib.request.urlopen(request).read().decode('utf-8')
+    payload = json.loads(result)
+    if payload['result'] == 0:
+        return True, payload['faces'][0]['age'], payload['faces'][0]['gender']
+    else:
+        return False, -1, 0
 
 if __name__ == '__main__':
     group = 'cj'
